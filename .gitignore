@@ -1,18 +1,15 @@
+.DS_Store
 
-*.xml
+#### LANG
+/.lein-repl-history
+/repl
 
-*.iml
+#### IDE
+/.project
+/.classpath
+/.buildpath
+/.settings/
 
-*.xml
 
-*.xml
 
-*.xml
 
-*.xml
-
-*.xml
-
-.idea/.name
-
-*.js
