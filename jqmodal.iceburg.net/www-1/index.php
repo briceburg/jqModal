@@ -1,26 +1,26 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<?php require('../inc/lib.php'); ?>
+<?php require('inc/lib.php'); ?>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 <title>jqModal :: Minimalistic Modaling for jQuery</title>
 <meta name="author" content="Brice Burgess" />
 <meta name="description" content="Minimalistic Modaling for jQuery. Modal Windows in javascript." />
 <meta name="keywords" content="modal, modal window, jquery, javascript" />
-<link type="text/css" rel="stylesheet" media="all" href="../inc/css/common.css" />
-<link type="text/css" rel="stylesheet" media="all" href="../inc/css/example.css" />
+<link type="text/css" rel="stylesheet" media="all" href="inc/css/common.css" />
+<link type="text/css" rel="stylesheet" media="all" href="inc/css/example.css" />
 
 
 <!-- jqModal Dependencies -->
-<script type="text/javascript" src="../inc/jquery-1.2.6.pack.js"></script>
+<script type="text/javascript" src="inc/jquery-1.2.6.pack.js"></script>
 <script type="text/javascript" src="jqModal.js"></script>
-
-<!-- Optional Javascript for Drag'n'Resize -->
-<script type="text/javascript" src="../jqDnR/jqDnR.js"></script>
-<script type="text/javascript" src="../inc/dimensions.js"></script>
 
 <!--  jqModal Styling -->
 <link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
+
+<!-- Optional Javascript for Drag'n'Resize -->
+<script type="text/javascript" src="inc/jqDnR.js"></script>
+<script type="text/javascript" src="inc/dimensions.js"></script>
 
 
 <script type="text/javascript">$().ready(function(){$('#nav').css('opacity',0.68);});</script>
