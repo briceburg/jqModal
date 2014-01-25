@@ -1,0 +1,145 @@
+
+body{
+padding:10px 50px;
+color: #000;
+background: transparent url(_img/main_background.gif) top left repeat-x;
+font:12px arial;
+}
+
+#page{
+max-width:65em;
+min-width:640px;
+margin:auto;
+
+}
+
+.right{border-bottom:4px solid #6495ED;margin:10px;clear:right;}
+
+p,span,input,textearea,li,optionf,th,td,h1,h2,h3,h4,h5,dd,dt{
+font:12px arial;
+line-height:2.1em;
+}
+h1,h2,h3,h4{
+font-size: 11pt;
+font-weight: normal;
+letter-spacing: -1px;
+text-transform: capitalize;
+}
+h1{
+margin:20px 0;
+border:0;
+border-bottom:4px double #DDD;
+font-size:16pt;
+letter-spacing: -1px;
+}
+h2{
+margin:0 0 20px;
+font-size:16px;
+}
+.jquploader{
+background:#333333;
+}
+
+a:link,a:visited{
+padding:0 5px;
+color:#FF00FF;
+background:transparent;
+text-decoration:none;
+border-left:0px dotted #6495ED;
+border-bottom:1px dotted #FF00FF;
+}
+a:hover,a:active, a.current{
+
+color:#FFF;
+background:#FF00FF;
+}
+pre{
+border:1px dotted #DDDDDD;
+padding:10px;
+color:#666666;
+
+}
+#menu{
+border-bottom:0px dotted #6495ED;
+padding:10px 0;
+margin:0;
+margin-bottom:10px;
+}
+#menu a{
+color:#6495ED;
+background:transparent;
+font-size:200%;
+letter-spacing:-1px;
+text-transform:capitalize;
+padding:0 10px;
+}
+#menu a:hover,#menu a:active, #menu a.current{
+color:#FF00FF;
+background:transparent;
+border-color: #FF00FF;
+}
+form{
+border:0px solid #DDD;
+padding:20px;
+background:#FFF;
+}
+.highlight{
+	background:#FFDDFE;
+	border:1px dotted #FF00FF;
+	padding:1em;
+	margin:1em;
+}
+p.highlight{ font-size:110%; font-weight:bold;}
+
+a.downloadLink{
+/*background:transparent url(_img/arrow_down.png) right bottom no-repeat;*/
+padding:2px 0 0px 0px;
+color:#FF00FF;
+font-style:normal;
+
+border-bottom-width:2px;
+}
+a.downloadLink:hover{
+color:#FF00FF;
+text-decoration: none;
+font-style:italic;
+font-size:110%;
+}
+
+fieldset{
+	border:1px dotted #DDD;
+}
+div.code{
+border:1px dotted #DDD;
+padding:20px;
+}
+dt{
+	font-weight:bold;
+	font-style:italic;
+	margin-top:1em;
+	border-left:4px solid #6495ED;
+	padding-left:5px;
+}
+form.a_form{
+border:1px dotted black;
+background:#FFFFDF;
+}
+.a_form ol, .a_form ul{
+list-style:none;
+}
+
+#flashMessage{
+	margin:auto;
+	width:100%;
+	height:20px;
+	background:#CCDDDD;
+	color:#000000;
+	border:1px dotted #000000;
+	z-index:10;
+	text-align:center;
+	display:none;
+	position:fixed;
+	top:0px;
+	left:0;
+	padding:5px;
+}

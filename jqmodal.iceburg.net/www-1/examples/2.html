@@ -1,0 +1,24 @@
+I am content loaded from "examples/2.html" through an AJAX request.
+<hr />
+
+A "closing link" should be provided in this response, since the response text
+fills (overwrites) the entire window, and thus any closing links it may have
+contained. To avoid this, ajax content can be "targeted" within a preconstructed
+window -- demonstrated in example 3b.
+<br /><br />
+By default, "close triggers" (which hide the window) are assigned to element(s) 
+with class <i>jqmClose</i>. If you want to use a different class name, pass the 
+<i>closeClass</i> parameter. See the <a href="README">documentation</a> for instructions.
+
+<br /><br />
+Lets provide some <em>Close Triggers</em>;
+<br/>To <b>CLOSE THIS WINDOW</b>..
+<a href="#" class="jqmClose">Click me</a> ... or 
+<button class="xxx jqmClose">me</button> ... or 
+<div class="yyy zzz jqmClose" style="display: inline; background-color:blue;color:white;padding:4px;">even me</div>.
+
+<p>
+To view the contents of this ajax request, click <a href="examples/2.html">here</a>. 
+Notice how the close links were setup.
+</p>
+

@@ -1,0 +1,292 @@
+NOTE: This file was written for r4 and is currently unmaintained.
+
+=========================
+  jqModal Documentation
+=========================
+
+NOTE: This is a parameter definition. For examples of use, source code, and 
+  and creative ideas see; http://dev.iceburg.net/jquery/jqModal/
+  
+[TOC]
+	- USAGE -
+	1. Adding, Showing, and Hiding Dialogs
+	2. Adding Triggers and Closes
+	
+	- PARAMETERS -
+	1. General
+	2. Styling
+	3. Ajax Related
+	4. Callback Functions
+	
+	- DEVELOPERS -
+	1. Source Code Key
+	
+=========
+  USAGE
+=========
+
+  1.
+  jqModal attaches itself to an element, turning that element into a dialog. e.g.
+    $(e).jqm();
+    
+  The $.jqm(); function takes parameters. Parameters and their defaults are listed
+  below. As example, you can disalbe the display of an overlay and pull the dialog content
+  from a remote source (ajax url) via;
+  
+  	$(e).jqm({ajax:'menu/welcome.html',overlay:0});
+  
+  Usually the element (e) is hidden from view via CSS (display: none), and shown
+  when a "trigger" is clicked. The dialog is closed when a "close" is clicked. 
+  You can manually show or hide a dialog with $.jqmShow() and $.jqmHide(). e.g.
+  
+    $(e).jqm().jqmShow(); $('#window2').jqmHide();
+    
+      will show the dialog attached to (e), and hide the dialog attached to the
+      element with an ID of window2, without any "trigger" being clicked.
+      
+  2.
+  Triggers and Closes are typically added on the fly via CSS class selections when $.jqm() 
+  is called on element(s). They can also be manually added. e.g.
+  
+    $(e).jqmAddTrigger(triggers) will add a "trigger" to open (show) dialog(s) attached to e, and
+    $(e).jqmAddClose(closes) will add a "close" to close (hide) the dialog(s) attached to e.
+    
+  From the wording above, it should be gathered that you can assign, show, hide,
+  and add closes/triggers to multiple dialogs at once! Further, triggers and closes can
+  be assosiated with multiple dialogs, and can show AND hide dialogs. e.g. 
+  
+   1 $('#a,#b,#c').jqm();
+   2 $('#a,#b').jqmShow().jqmAddClose(trigger);
+   3 $('#c').jqmAddTrigger(trigger);
+  	
+  	1: assign dialogs to elements with ID a, b, and c
+  	2: open a and b, assign a "close" to 'trigger' for both a and b dialogs.
+  	3: assign a "open" to 'trigger' for c dialog.
+  	
+  	clicking 'trigger' will close a and b dialogs, and open c dialog.
+  	
+
+======================
+  $.jqm() PARAMETERS
+======================
+  
+1. [ GENERAL ]
+***************
+
+modal (bool)
+-------------
+  If modal is enabled (true), input (mouse clicks, keypresses) will be locked to the
+  modal window (forced focus a.k.a. "true modal"). If false, the user will be able to
+  interact outside of the modal window. 
+  
+  If false and overlay is enabled, CLICKING THE OVERLAY WILL CLOSE THE DIALOG.
+  
+  default: FALSE
+
+
+overlay (int)
+---------------
+  The overlay transparency as a percentage. If 0 the overlay is disabled, and
+  the page will remain interactive. If 100 the overlay will be 100% opaque.
+	  
+  default: 50
+  
+
+trigger (mixed)
+---------------
+  When a trigger is clicked, the window it is assosiated with is displayed. jqModal
+  will by default look through the entire DOM for elements matching class "jqModal"
+  and assign a "open" trigger to those found.
+  
+  The trigger can be;
+    (str) - a jQuery Selector (CSS/XPATH) see; http://docs.jquery.com/DOM/Traversing/Selectors
+    (object) - a DOM element (e.g. trigger =  document.getElementById("trigger"); )
+    (false) - if FALSE, no trigger will be looked up.
+    
+  default: '.jqModal' (css selector, "elements with class jqModal")
+  
+
+closeClass (str|false)
+----------------
+  jqModal will by default look through the window for elements matching class "jqmClose",
+  and assign a "close" trigger to those found. When a close trigger is clicked, the dialog
+  is hidden.
+  
+  If false, no "close" triggers will be assigned/looked for.
+    
+  default: 'jqmClose'
+  
+
+2. [ STYLING ]
+****************
+  
+overlayClass (str)
+--------------------
+  Name of CSS class applied to the Overlay (defines tint color, background image, etc.).
+  
+  default: 'jqmOverlay'
+
+  
+zIndex (int)
+---------------	
+  The default z-index value for a dialog. If one is defined via CSS, the CSS
+  z-index will take priority (and the parameter value ignored).
+	
+  default: 3000
+
+  
+3. [ AJAX RELATED ]
+*********************
+
+ajax (str)
+---------------
+  If ajax is passed, the content of the window will be pulled remotely via an AJAX
+  request.
+  
+  A URL (str) is accepted, the windows content will be loaded from this URL
+    (e.g. {ajax: 'include/dialog.html' })
+  
+  The URL can also be extracted from an attribute of the triggering element
+  by prefixing with a '@'. For instance, {ajax: '@href' } would tell jqModal to 
+  extract the remote content URL from the triggering link's [<a href="blah.html">] 
+  HREF attribute. Any attribute can be used.
+    (e.g. $(e).jqm({ajax:'@name'}); }
+  
+  NOTE; To use custom ajax routines, utilize an "on open" callback function. If you
+    need to process the ajax return, see the "onLoad" callback.
+    
+  default: FALSE
+  
+
+target (mixed)
+---------------
+  The ajax target allows you to set the target element for an ajax request to load content
+  into. This is useful if you'd like to retain the styling and markup of a preconstructed
+  window.
+  
+  NOTE; target is applicable only if the ajax parameter is passed. The target MUST EXIST
+  within the passed window element.
+  
+  EXAMPLE;
+  (markup)
+  <div id="window">
+	  <div class="header">..</div>
+	  <div class="target">[LOAD CONTENT HERE]</div>
+	  <div class="footer">..</div>
+  </div>
+  
+  (script)
+  $().ready(function() { 
+    $('#window').jqm({ajax: 'include/dialog.html', target: '.target'});
+  });
+  
+  OR
+  
+  (script)
+  $().ready(function() { 
+    var target = $('#window div.target')[0];
+    $('#window').jqm({ajax: 'include/dialog.html', target: target});
+  });
+	  
+  default: Assignment Element (e.g. In example above, this would be <div id="window">)
+  
+
+4. [ CALLBACKS ]
+******************
+
+  Callbacks functions allow complete customization and control. There are three callback
+  functions; "onShow", "onHide", and "onLoad".
+  	
+  Each callback is passed the jqModal "hash" for a window. Relevant hash properties are;
+  
+  	-----------------------------------
+  	w: (jQuery object) The window element. e.g. '#example' in the sample above
+  	c: (object) The config object (holds passed+default parameters)
+  	o: (jQuery object) The overlay
+  	t: (DOM object) The triggering element
+  	
+  NOTE; If you supply a "onHide" callback, you MUST execute hash.o.remove(); to
+    remove the overlay. You should also hide the window via hash.w.hide();, or
+    with a special effect.
+    
+  NOTE; If you supply a "onShow" callback, you should make the dialog visible
+    via hash.w.show();, or with a special effect.
+    
+  NOTE; "onLoad" callbacks are ONLY executed if the ajax parameter was passed.
+    onLoad is called after the ajax response. As with $.load(), the "this" 
+    scope is a reference to the ajax target as a DOM element.
+    
+    
+    Example use of callbacks;
+    
+    <script type="text/javascript">
+    
+    // [[[ setup callbacks ]]]
+    
+    // onLoad : assign ajaxForm to the returned form element
+      var load=function(hash){ $('form',this).ajaxForm(); };
+      
+    // onShow : show+make the window translucent
+      var open=function(hash){ hash.w.css('opacity',0.88).show(); };
+      
+    // onHide : fade the window out, kill overlay after fade.
+      var close=function(hash) { hash.w.fadeOut('2000',function(){ hash.o.remove(); }); };
+      
+    // [[[ setup dialog w/ callbacks ]]]
+      
+      $('.dialog').jqm({
+      	onLoad: load,
+      	onShow: open,
+      	onHide: close});
+      	
+    </script>
+    
+    
+==============
+  DEVELOPERS
+==============
+
+1. Developer Key.
+
+  NOTE: Commented source is available @ the plugin page as jqModal.dev.js.
+  
+  TODO: this needs to be rewritten for r10+
+  
+  Here is a key to help you (and me) find our way around -->
+  
+/* 
+	[GLOBALS]
+	h: hash
+		a: active (bool -- if dialog is visible) [will depreicate when auto zIndex is added..]
+		c: config/options (object)
+		f: focus element
+		o: overlay (jQ object)
+		t: triggering element (DOM object)
+		s: serial # of this hash
+		w: window (jQ object) -- element(s) $.jqm was called on
+		
+	s: serial
+	
+	ma: modal array - holds the current focused modal. if empty, no modal dialogs visible.
+	mf: binds || unbinds the modal "focus function"
+	m: modal "focus function" - returns focus to a modal dialog (when bound)
+	
+	hs: "hide/show" triggers -- binds a hide or show event to passed elements 
+		NOTE: if jqmHide is passed, bindings will be scoped to window.
+		
+	f: focus function -- accepts hash, assigns hash.f to first input (or window), focuses hash.f; 
+		this function also covers the element in a background iframe if the user agent is IE6
+	----
+	
+	$.jqm.open
+		c: config/options (object)
+		cc: closeClass shortcut ('.'+c.closeClass)
+		h: hash
+		i: IE activeX cover <iframe>
+		o: overlay <div>
+		t: triggering element (DOM object)
+		z: zIndex (int -- shortcut)
+		
+		r: ajax target
+		u: ajax url
+*/

@@ -1,0 +1,37 @@
+div.square {
+	display: none;
+	height: 88px;
+	width: 88px;
+	font-size: 10px;
+	padding: 5px;
+	border: 1px solid;
+	position: absolute;
+}
+
+div.square.a{
+	background: #EEE;
+	color: #777;
+	border-color: #777;
+	margin: 0 0 0 300px;
+}
+
+div.square.b{
+	background: #FFF6E5;
+	color: #FF8000;
+	border-color: #FF8000;
+	margin: -300px 0 0 300px;
+}
+
+div.square.c{
+	background: #DDF0BD;
+	color: green;
+	border-color: green;
+	margin: 0 0 0 600px;
+}
+
+div.square.d{
+	background: #FFF1F1;
+	color: red;
+	border-color: red;
+	margin: -300px 0 0 600px;
+}
