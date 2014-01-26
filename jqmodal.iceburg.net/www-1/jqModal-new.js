@@ -13,7 +13,8 @@
  * TODO
  * 
  * + test data attribute for ajax
- * 
+ * + compat change; onShow/onHide callbacks must return true||false
+ * + compat chaange onShow callback responsible for displaying overlay.
  */
 
 (function(jQuery, window, undefined) {
@@ -57,14 +58,21 @@
 			target: false,
 			modal: false,
 			toTop: false,
-			onShow: false,
-			onHide: false,
+			onShow: onShow,
+			onHide: onHide,
 			onLoad: false
 		};
 		
 		$.extend(o,options);
 		
 		return this.each(function(){
+			if(!this._jqm)
+			{
+				I++;
+				this._jqmID = I;
+				$(this).addClass('jqmID-'+I);
+			}
+			
 			this._jqm = o;
 			
 			// ... Attach events to trigger showing of this modal
@@ -74,8 +82,8 @@
 	
 	
 	/**
-	 * Matching modals will have their onShow callback fired by the onClick 
-	 *   handler of elements matching `trigger`.
+	 * Matching modals will have their jqmShow() method fired by attaching a
+	 *   onClick event to elements matching `trigger`.
 	 * 
 	 * @name jqmAddTrigger
 	 * @param trigger a selector String, jQuery collection of elements, or a DOM element.
@@ -93,8 +101,37 @@
 					$.each(this._jqt, function(i, e){
 						$(e).jqmShow(this);
 					});
+					
+					return false;
 				});
 			} else { err("jqmAddTrigger must be called on initialized modals");}
+		});
+	};
+	
+	
+	/**
+	 * Matching modals will have their jqmHide() method fired by attaching an
+	 *   onClick event to elements matching `trigger`.
+	 * 
+	 * @name jqmAddClose
+	 * @param trigger a selector String, jQuery collection of elements, or a DOM element.
+	 */
+	$.fn.jqmAddClose=function(trigger){
+		return this.each(function(){
+			var e = this;
+			if(e._jqm)
+			{ 
+				$(trigger).each(function(){
+					// _jqc: array of modals to close when this trigger element is clicked
+					this._jqc = this._jqc || [];
+					this._jqc.push(e);
+				}).click(function(){
+					$.each(this._jqc, function(i, e){
+						$(e).jqmHide(this);
+					});
+					return false;
+				});
+			} else { err("jqmAddClose must be called on initialized modals");}
 		});
 	};
 	
@@ -103,35 +140,141 @@
 	 * Open matching modals (if not shown)
 	 */
 	$.fn.jqmShow=function(trigger){
-		return this.each(function(){ !this._jqm.shown&&show(this, trigger); });
+		return this.each(function(){ !this._jqmShown&&show($(this), trigger); });
 	};
 	
 	/**
 	 * Close matching modalsZ
 	 */
 	$.fn.jqmHide=function(trigger){
-		return this.each(function(){ this._jqm.shown&&hide(this, trigger); });
+		return this.each(function(){ this._jqmShown&&hide($(this), trigger); });
 	};
 	
 	
 	// utility functions
 	
-	var 
-	   err = function(msg){
-		if(window.console && window.console.error) window.console.error(msg);
+	var
+		err = function(msg){
+			if(window.console && window.console.error) window.console.error(msg);
 		
 		
-	}, show = function(e, trigger){
-		// show a modal element (e)
-		console.log(e);
-		console.log(e._jqm);
+	}, show = function(e, t){
+		
+		/**
+		 * e = modal element (as jQuery object)
+		 * t = triggering element
+		 * 
+		 * o = options
+		 * z = z-index of modal
+		 * v = overlay element (as jQuery object)
+		 * 
+		 * 
+		 * cc closeClas
+		 * h hash
+		 * h.c hash/options
+		 */
+		
+		var o = e[0]._jqm,
+			z = /^\d+$/.test(e.css('z-index'))&&e.css('z-index')||o.zIndex,
+			v = $('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100})
+
+		
+		console.log('before onShow');
+
+		// trigger onShow callback maintaining legacy "hash" compatibility
+		if(o.onShow({w: e, c: o, o: v, t: t}))
+		{
+			// mark modal as shown
+			e[0]._jqmShown = true;
+			
+
+			console.log('after onShow');
+			
+			
+			// if modal dialog 
+			//
+			// Bind the Keep Focus Function [F] if no other Modals are open (!A[0]) +
+			// Add this modal to the opened modals stack (A) for nested modal support +
+			// Mark overlay to show wait cursor when mouse hovers over it.
+			// 
+			// else, close dialog when overlay is clicked
+			if(o.modal){ !A[0]&&F('bind'); A.push(e); v.css('cursor','wait'); }
+			else {e.jqmAddClose(v); }
+		}
+		
 		
 	}, hide = function(e, trigger){
 		// hide a modal element (e)
 		
-	};
 		
-	
+	}, onShow = function(hash){
+		// onShow callback. Responsible for showing a modal.
+		//  return true if modal is shown, false if not.
+		
+		// hash object;
+	    //  w: (jQuery object) The dialog element
+	    //  c: (object) The config object (dialog's parameters)
+	    //  o: (jQuery object) The overlay
+	    //  t: (DOM object) The triggering element
+		
+		var e = hash.w,
+			v = hash.o,
+			o = hash.c;
+		
+		// display the overlay if not disabled
+		if(o.overlay > 0) v.addClass(o.overlayClass).prependTo('body');
 			
+		// make modal visible
+		e.show();
+		
+		// attempt to focus on first input in modal
+		try{$(':input:visible',e)[0].focus();}catch(e){}
+		
+		return true;
+		
+		
+	}, onHide = function(hash){
+		// onHide callback. Responsible for hiding a modal.
+		//  return true if modal is closed, false if not.
+		
+		// hash object;
+	    //  w: (jQuery object) The dialog element
+	    //  c: (object) The config object (dialog's parameters)
+	    //  o: (jQuery object) The overlay
+	    //  t: (DOM object) The triggering element 
+		
+		alert('onHide!');
+		
+		
+	},  F = function(t){
+		// F: The Keep Focus Function (for modal dialos)
+		// Binds or Unbinds (t) the Focus Examination Function (X) to keypresses and clicks
+		
+		$(document)[t]("keypress keydown mousedown",X);
+		
+		
+	}, X = function(e){
+		// X: The Focus Examination Function (for modal dialogs)
+		
+		// determine active modal ID
+    	var activeModal = A[A.length-1], id = activeModal[0]._jqmID;
+    	
+    	console.log(activeModal);
+    	console.log(id);
+    	
+    	// Determine if the click/press falls within active modal. 
+    	if($(e.target).parents('.jqmID-'+id).length){ 
+    		console.log('IN');
+    		return true; 
+    	} else {
+    		console.log('OUT!');
+    		try{$(':input:visible',e)[0].focus();}catch(e){}
+    		return false;
+    	}
+		
+	}, 
+	
+	I = 0,   // modal ID increment (for nested modals) 
+	A = [];  // array of active modals (used to lock interactivity to appropriate modal) 
 	
 })( jQuery, window );

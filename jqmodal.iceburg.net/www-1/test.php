@@ -39,7 +39,7 @@
 
 
 <div id="modal">aaaaa</div>
-
+<div id="modalB">aaaaa</div>
 
 <a href="#" id="trigger">trigger</a>
 
@@ -47,11 +47,13 @@
 <script type="text/javascript">
 $().ready(function(){
 
-	$('#modal').jqm({trigger: '#trigger'});
+	//$('#modal').jqm({trigger: '#trigger'});
 
-	$('#trigger').jqmAddTrigger('');
+	$('#modalB').jqm({trigger: '#trigger', overlay: 0, modal: true});
 
-	$('#modal').jqmShow();
+	//$('#trigger').jqmAddTrigger('');
+
+	//$('#modal').jqmShow();
 		
 });
 </script>
