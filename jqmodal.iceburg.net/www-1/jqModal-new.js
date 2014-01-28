@@ -16,6 +16,7 @@
  * + compat change; onShow/onHide callbacks must return true||false
  * + compat chaange onShow callback responsible for displaying overlay.
  * + bumped minimum jquery version to 1.2.3 (for data())
+ * + removed IE6 activeX workaround
  */
 
 (function(jQuery, window, undefined) {
@@ -142,41 +143,36 @@
 		 * o = options
 		 * z = z-index of modal
 		 * v = overlay element (as jQuery object)
-		 * 
-		 * 
-		 * cc closeClas
-		 * h hash
-		 * h.c hash/options
+		 * h = hash (for jqModal <= r15 compatibility)
 		 */
 		
 		var o = e.data('jqm'),
 			z = /^\d+$/.test(e.css('z-index'))&&e.css('z-index')||o.zIndex,
-			v = $('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100})
-
-		
-		console.log('before onShow');
-
-		// trigger onShow callback maintaining legacy "hash" compatibility
-		if(o.onShow({w: e, c: o, o: v, t: t}))
-		{
-			// mark modal as shown
-			e[0]._jqmShown = true;
+			v = $('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100});
 			
+			// maintain legacy "hash" construct
+			h = {w: e, c: o, o: v, t: t};
+			
+		e.css('z-index',z);
 
-			console.log('after onShow');
+		if(o.ajax){
+			var target = o.target || e,
+				url = o.ajax;
 			
+			target = (typeof target == 'string') ? $(target,e) : $(target);
+			if(url.substr(0,1) == '@') url = $(t).attr(url.substring(1));
 			
-			// if modal dialog 
-			//
-			// Bind the Keep Focus Function [F] if no other Modals are open (!A[0]) +
-			// Add this modal to the opened modals stack (A) for nested modal support +
-			// Mark overlay to show wait cursor when mouse hovers over it.
-			// 
-			// else, close dialog when overlay is clicked
-			if(o.modal){ !A[0]&&F('bind'); A.push(e); v.css('cursor','wait'); }
-			else {e.jqmAddClose(v); }
+			 // Load the Ajax Content (and once loaded);
+			   // Fire the onLoad callback (if exists),
+			   // Attach closing events to elements inside the modal that match the closingClass,
+			   // and Execute the jqModal default Open Callback
+			target.load(url,function(){
+				o.onLoad && o.onLoad.call(this,h);
+				open(h);
+			});				
+			
 		}
-		
+		else { open(h); }
 		
 	}, hide = function(e, trigger){
 		// hide a modal element (e)
@@ -239,6 +235,39 @@
 			// stop trigger click event from bubbling
 			return false;
 		});
+		
+		
+	},  open = function(h){
+		// open: executes the onOpen callback + performs common tasks if successful
+
+		// transform legacy hash into new var shortcuts 
+		 var e = h.w,
+		 	v = h.o,
+		 	o = h.c;	
+
+		// execute onShow callback
+		if(o.onShow(h)){
+			// mark modal as shown
+			e[0]._jqmShown = true;
+			
+			// if modal dialog 
+			//
+			// Bind the Keep Focus Function [F] if no other Modals are open (!A[0]) +
+			// Add this modal to the opened modals stack (A) for nested modal support +
+			// Mark overlay to show wait cursor when mouse hovers over it.
+			// 
+			// else, close dialog when overlay is clicked
+			if(o.modal){ !A[0]&&F('bind'); A.push(e); v.css('cursor','wait'); }
+            else e.jqmAddClose(v);
+			
+			//  Attach closing events to elements inside the modal that match the closingClass
+			o.closeClass&&e.jqmAddClose($(o.closeClass,e));
+			
+			// IF toTop is true and overlay exists;
+			//  Add placeholder element <span id="jqmP#ID_of_modal"/> before modal to
+			//  remember it's position in the DOM and move it to a child of the body tag (after overlay)
+			o.toTop&&v&&e.before('<span id="jqmP'+o.ID+'"></span>').insertAfter(v);
+		}
 		
 		
 	},  F = function(t){
