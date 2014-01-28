@@ -6,7 +6,7 @@
  * http://www.opensource.org/licenses/mit-license.php
  * 
  * $Version: 2014.??.?? +r12 beta
- * Requires: jQuery 1.1.3+
+ * Requires: jQuery 1.2.3+
  */
 
 /**
@@ -15,6 +15,7 @@
  * + test data attribute for ajax
  * + compat change; onShow/onHide callbacks must return true||false
  * + compat chaange onShow callback responsible for displaying overlay.
+ * + bumped minimum jquery version to 1.2.3 (for data())
  */
 
 (function(jQuery, window, undefined) {
@@ -66,14 +67,13 @@
 		$.extend(o,options);
 		
 		return this.each(function(){
-			if(!this._jqm)
-			{
-				I++;
-				this._jqmID = I;
-				$(this).addClass('jqmID-'+I);
-			}
+			var e = $(this),
+				jqm = $(this).data('jqm');
 			
-			this._jqm = o;
+			if(!jqm) jqm = {ID: I++};
+			
+			// add/extend options to modal and mark as initialized
+			e.data('jqm',$.extend(o,jqm)).addClass('jqm-init');
 			
 			// ... Attach events to trigger showing of this modal
 			o.trigger&&$(this).jqmAddTrigger(o.trigger);
@@ -119,7 +119,7 @@
 	};
 	
 	/**
-	 * Close matching modalsZ
+	 * Close matching modals
 	 */
 	$.fn.jqmHide=function(trigger){
 		return this.each(function(){ this._jqmShown&&hide($(this), trigger); });
@@ -149,7 +149,7 @@
 		 * h.c hash/options
 		 */
 		
-		var o = e[0]._jqm,
+		var o = e.data('jqm'),
 			z = /^\d+$/.test(e.css('z-index'))&&e.css('z-index')||o.zIndex,
 			v = $('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100})
 
@@ -226,7 +226,7 @@
 		//  all elements that match trigger string (trigger)\
 		
 		// return false if e is not an initialized modal element
-		if(!e[0]._jqm) return false;
+		if(!e.data('jqm')) return false;
 		
 		return $(trigger).each(function(){
 			// register modal to trigger elements
@@ -253,22 +253,16 @@
 		
 	}, X = function(e){
 		// X: The Focus Examination Function (for modal dialogs)
+
+		var modal = $(e.target).data('jqm') || $(e.target).parents('.jqm-init:first').data('jqm'),
+			activeModal = A[A.length-1].data('jqm');
 		
-		// determine active modal ID
-    	var activeModal = A[A.length-1], id = activeModal[0]._jqmID;
-    	
-    	console.log(activeModal);
-    	console.log(id);
-    	
-    	// Determine if the click/press falls within active modal. 
-    	if($(e.target).parents('.jqmID-'+id).length){ 
-    		console.log('IN');
-    		return true; 
-    	} else {
-    		console.log('OUT!');
-    		try{$(':input:visible',e)[0].focus();}catch(e){}
-    		return false;
-    	}
+		// allow bubbling if event target is within active modal dialog
+		if(modal && modal.ID == activeModal.ID) return true; 
+
+		// else, try to focus on first input element and halt bubbling
+		$(':input:visible:first',activeModal).focus();
+    	return false;
 		
 	}, 
 	
