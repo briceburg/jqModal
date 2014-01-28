@@ -187,9 +187,9 @@
 		//  return true if modal is shown, false if not.
 		
 		// hash object;
-	    //  w: (jQuery object) The dialog element
-	    //  c: (object) The config object (dialog's parameters)
-	    //  o: (jQuery object) The overlay
+	    //  w: (jQuery object) The modal element
+	    //  c: (object) The modal's options object 
+	    //  o: (jQuery object) The overlay element
 	    //  t: (DOM object) The triggering element
 		
 		// display the overlay (prepend to body) if not disabled
@@ -210,10 +210,10 @@
 		//  return true if modal is closed, false if not.
 		
 		// hash object;
-	    //  w: (jQuery object) The dialog element
-	    //  c: (object) The config object (dialog's parameters)
-	    //  o: (jQuery object) The overlay
-	    //  t: (DOM object) The triggering element 
+	    //  w: (jQuery object) The modal element
+	    //  c: (object) The modal's options object 
+	    //  o: (jQuery object) The overlay element
+	    //  t: (DOM object) The triggering element
 		
 		alert('onHide!');
 		
@@ -242,14 +242,14 @@
 		
 		
 	},  F = function(t){
-		// F: The Keep Focus Function (for modal dialos)
+		// F: The Keep Focus Function (for modal: true dialos)
 		// Binds or Unbinds (t) the Focus Examination Function (X) to keypresses and clicks
 		
 		$(document)[t]("keypress keydown mousedown",X);
 		
 		
 	}, X = function(e){
-		// X: The Focus Examination Function (for modal dialogs)
+		// X: The Focus Examination Function (for modal: true dialogs)
 
 		var modal = $(e.target).data('jqm') || $(e.target).parents('.jqm-init:first').data('jqm'),
 			activeModal = A[A.length-1].data('jqm');
