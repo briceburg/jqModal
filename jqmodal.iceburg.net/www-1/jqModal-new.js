@@ -90,21 +90,8 @@
 	 */
 	$.fn.jqmAddTrigger=function(trigger){
 		return this.each(function(){
-			var e = this;
-			if(e._jqm)
-			{ 
-				$(trigger).each(function(){
-					// _jqt: array of modals to show when this trigger element is clicked
-					this._jqt = this._jqt || [];
-					this._jqt.push(e);
-				}).click(function(){
-					$.each(this._jqt, function(i, e){
-						$(e).jqmShow(this);
-					});
-					
-					return false;
-				});
-			} else { err("jqmAddTrigger must be called on initialized modals");}
+			if(!addTrigger($(this), 'jqmShow', trigger))
+				err("jqmAddTrigger must be called on initialized modals")
 		});
 	};
 	
@@ -118,20 +105,8 @@
 	 */
 	$.fn.jqmAddClose=function(trigger){
 		return this.each(function(){
-			var e = this;
-			if(e._jqm)
-			{ 
-				$(trigger).each(function(){
-					// _jqc: array of modals to close when this trigger element is clicked
-					this._jqc = this._jqc || [];
-					this._jqc.push(e);
-				}).click(function(){
-					$.each(this._jqc, function(i, e){
-						$(e).jqmHide(this);
-					});
-					return false;
-				});
-			} else { err("jqmAddClose must be called on initialized modals");}
+			if(!addTrigger($(this), 'jqmHide', trigger))
+				err("jqmAddTrigger must be called on initialized modals")
 		});
 	};
 	
@@ -244,6 +219,29 @@
 	    //  t: (DOM object) The triggering element 
 		
 		alert('onHide!');
+		
+		
+	},  addTrigger = function(e, key, trigger){
+		// addTrigger: Adds a jqmShow or jqmHide (key) for a modal (e) 
+		//  all elements that match trigger string (trigger)\
+		
+		// return false if e is not an initialized modal element
+		if(!e[0]._jqm) return false;
+		
+		return $(trigger).each(function(){
+			// register modal to trigger elements
+			this[key] = this[key] || [];
+			this[key].push(e);
+			
+		}).click(function(){
+			
+			// foreadh modal registered to this trigger, call jqmShow || 
+			//   jqmHide (key) on modal passing trigger element (e)
+			$.each(this[key], function(i, e){ e[key](this); });
+			
+			// stop trigger click event from bubbling
+			return false;
+		});
 		
 		
 	},  F = function(t){
