@@ -192,18 +192,15 @@
 	    //  o: (jQuery object) The overlay
 	    //  t: (DOM object) The triggering element
 		
-		var e = hash.w,
-			v = hash.o,
-			o = hash.c;
-		
-		// display the overlay if not disabled
-		if(o.overlay > 0) v.addClass(o.overlayClass).prependTo('body');
+		// display the overlay (prepend to body) if not disabled
+		if(hash.c.overlay > 0)
+			hash.o.addClass(hash.c.overlayClass).prependTo('body');
 			
 		// make modal visible
-		e.show();
+		hash.w.show();
 		
 		// attempt to focus on first input in modal
-		try{$(':input:visible',e)[0].focus();}catch(e){}
+		$(':input:visible:first',hash.w).focus();
 		
 		return true;
 		
