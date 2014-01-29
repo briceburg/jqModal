@@ -244,9 +244,11 @@
 			
 		}).click(function(){
 			
+			var trigger = this;
+			
 			// foreadh modal registered to this trigger, call jqmShow || 
 			//   jqmHide (key) on modal passing trigger element (e)
-			$.each(this[key], function(i, e){ e[key](this); });
+			$.each(this[key], function(i, e){ e[key](trigger); });
 			
 			// stop trigger click event from bubbling
 			return false;
