@@ -16,6 +16,14 @@ Change log
   jqModal Documentation
 =========================
 
-Work in progress. Please refer to the jqModal website:
-  http://jquery.iceburg.net/jqmodal (also on github @  )
+Work in progress. Refer to the jqModal website:
+
+* http://jquery.iceburg.net/jqmodal
+  
+
+The jqModal website code is available on github -- please feel free to contribute examples and fix documentation.
+
+* https://github.com/iceburg-net/jquery.iceburg.net/tree/master/www-1/jqModal
+
+Report issues to the issue tracker. Support will be available through a google group(?)
 
