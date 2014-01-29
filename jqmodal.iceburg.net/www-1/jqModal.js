@@ -13,7 +13,7 @@
  * TODO
  * 
  * + test data attribute for ajax
- * + compat change; onShow/onHide callbacks must return true||false
+ * + returning false in callback functions will halt behavior (e.g. stop the showing of a modal)
  * + compat chaange onShow callback responsible for displaying overlay & showing modal.
  * + compat change onHide callback responsible for removing overlay & hiding modal.
  * + bumped minimum jquery version to 1.2.3 (for data())
@@ -193,7 +193,7 @@
 		
 	}, onShow = function(hash){
 		// onShow callback. Responsible for showing a modal and overlay.
-		//  return true if modal is shown, false if not.
+		//  return false to stop showing modal. 
 		
 		// hash object;
 	    //  w: (jQuery object) The modal element
@@ -216,7 +216,7 @@
 		
 	}, onHide = function(hash){
 		// onHide callback. Responsible for hiding a modal and overlay.
-		//  return true if modal is closed, false if not.
+		//  return false to stop closing modal. 
 		
 		// hash object;
 	    //  w: (jQuery object) The modal element
@@ -224,10 +224,8 @@
 	    //  o: (jQuery object) The overlay element
 	    //  t: (DOM object) The triggering element
 		
-		
 		// hide modal and if overlay, remove overlay.
 		hash.w.hide() && hash.o && hash.o.remove();
-		
 		
 		return true;
 		
@@ -264,7 +262,7 @@
 		 	o = h.c;	
 
 		// execute onShow callback
-		if(o.onShow(h)){
+		if(o.onShow(h) !== false){
 			// mark modal as shown
 			e[0]._jqmShown = true;
 			
@@ -300,7 +298,7 @@
 		 	o = h.c;
 
 		// execute onShow callback
-		if(o.onHide(h)){
+		if(o.onHide(h) !== false){
 			// mark modal as !shown
 			e[0]._jqmShown = false;
 			
