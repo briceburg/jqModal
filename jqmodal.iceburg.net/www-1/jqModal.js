@@ -14,7 +14,8 @@
  * 
  * + test data attribute for ajax
  * + compat change; onShow/onHide callbacks must return true||false
- * + compat chaange onShow callback responsible for displaying overlay.
+ * + compat chaange onShow callback responsible for displaying overlay & showing modal.
+ * + compat change onHide callback responsible for removing overlay & hiding modal.
  * + bumped minimum jquery version to 1.2.3 (for data())
  * + removed IE6 activeX workaround
  */
@@ -107,7 +108,7 @@
 	$.fn.jqmAddClose=function(trigger){
 		return this.each(function(){
 			if(!addTrigger($(this), 'jqmHide', trigger))
-				err("jqmAddTrigger must be called on initialized modals")
+				err("jqmAddClose must be called on initialized modals")
 		});
 	};
 	
@@ -174,12 +175,24 @@
 		}
 		else { open(h); }
 		
-	}, hide = function(e, trigger){
-		// hide a modal element (e)
+	}, hide = function(e, t){
+		/**
+		 * e = modal element (as jQuery object)
+		 * t = triggering element
+		 * 
+		 * o = options
+		 * h = hash (for jqModal <= r15 compatibility)
+		 */
 		
+		var o = e.data('jqm'),
+		
+		// maintain legacy "hash" construct
+		h = {w: e, c: o, o: e.data('jqmv'), t: t};
+		
+		close(h);
 		
 	}, onShow = function(hash){
-		// onShow callback. Responsible for showing a modal.
+		// onShow callback. Responsible for showing a modal and overlay.
 		//  return true if modal is shown, false if not.
 		
 		// hash object;
@@ -202,7 +215,7 @@
 		
 		
 	}, onHide = function(hash){
-		// onHide callback. Responsible for hiding a modal.
+		// onHide callback. Responsible for hiding a modal and overlay.
 		//  return true if modal is closed, false if not.
 		
 		// hash object;
@@ -211,7 +224,12 @@
 	    //  o: (jQuery object) The overlay element
 	    //  t: (DOM object) The triggering element
 		
-		alert('onHide!');
+		
+		// hide modal and if overlay, remove overlay.
+		hash.w.hide() && hash.o && hash.o.remove();
+		
+		
+		return true;
 		
 		
 	},  addTrigger = function(e, key, trigger){
@@ -261,12 +279,38 @@
             else e.jqmAddClose(v);
 			
 			//  Attach closing events to elements inside the modal that match the closingClass
-			o.closeClass&&e.jqmAddClose($(o.closeClass,e));
+			o.closeClass&&e.jqmAddClose($('.' + o.closeClass,e));
 			
 			// IF toTop is true and overlay exists;
 			//  Add placeholder element <span id="jqmP#ID_of_modal"/> before modal to
 			//  remember it's position in the DOM and move it to a child of the body tag (after overlay)
 			o.toTop&&v&&e.before('<span id="jqmP'+o.ID+'"></span>').insertAfter(v);
+			
+			// remember overlay (for closing function)
+			e.data('jqmv',v);
+		}
+		
+		
+	},  close = function(h){
+		// close: executes the onHide callback + performs common tasks if successful
+
+		// transform legacy hash into new var shortcuts 
+		 var e = h.w,
+		 	v = h.o,
+		 	o = h.c;
+
+		// execute onShow callback
+		if(o.onHide(h)){
+			// mark modal as !shown
+			e[0]._jqmShown = false;
+			
+			 // If modal, remove from modal stack.
+			 // If no modals in modal stack, unbind the Keep Focus Function
+			 if(o.modal){A.pop();!A[0]&&F('unbind');}
+			 
+			 // IF toTop was passed and an overlay exists;
+			 //  Move modal back to its "remembered" position.
+			 o.toTop&&v&&$('#jqmP'+o.ID).after(e).remove();
 		}
 		
 		
