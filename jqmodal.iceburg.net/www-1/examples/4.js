@@ -21,11 +21,4 @@ $().ready(function() {
 	 $('#ex4c').jqm({modal: true, overlay: 10, trigger: false});
 	 
 	// Close Button Highlighting Javascript provided in ex3a.
-	
-	// Work around for IE's lack of :focus CSS selector
-	if($.browser.msie)
-		$('input')
-			.focus(function(){$(this).addClass('iefocus');})
-			.blur(function(){$(this).removeClass('iefocus');});
-	
 });

@@ -25,12 +25,12 @@ Want to see if jqModal supports nested Windows?
 $().ready(function() {
     var output = $('#ex4 div.output');
     
-    $('#ex4 input[@value=no]').click(function() {
+    $('#ex4 input[value=no]').click(function() {
         output.html("Okey-Doke.").fadeTo(1,1).fadeTo(4000,0);
         return false;
     });
     
-   $('#ex4 input[@value=yes]').click(function() {
+   $('#ex4 input[value=yes]').click(function() {
         $('#ex4c').jqmShow();
    });
     
