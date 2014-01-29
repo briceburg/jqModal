@@ -2,22 +2,11 @@
  * jqModal - Minimalist Modaling with jQuery
  *
  * Copyright (c) 2007-2014 Brice Burgess @iceburg_net
- * Licensed under the MIT License:
+ * Released under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
  * 
- * $Version: 2014.??.?? +r12 beta
+ * $Version: 2014.01.28 +r16
  * Requires: jQuery 1.2.3+
- */
-
-/**
- * TODO
- * 
- * + test data attribute for ajax
- * + returning false in callback functions will halt behavior (e.g. stop the showing of a modal)
- * + compat chaange onShow callback responsible for displaying overlay & showing modal.
- * + compat change onHide callback responsible for removing overlay & hiding modal.
- * + bumped minimum jquery version to 1.2.3 (for data())
- * + removed IE6 activeX workaround
  */
 
 (function(jQuery, window, undefined) {

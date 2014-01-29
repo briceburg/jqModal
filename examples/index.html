@@ -1,0 +1,54 @@
+<html>
+<head>
+<title>simple jqModal example</title>
+
+<!-- jqModal Dependencies -->
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<script type="text/javascript" src="../jqModal.js"></script>
+
+<!--  jqModal Styling -->
+<link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
+</head>
+<body>
+
+
+<div style="width: 600px; margin: 2em auto;">
+1. <em>Defaults</em> -- <a href="#" class="jqModal">click to trigger modal</a>
+<br/>
+Out-of-box behavior. The window and its content is taken "inline" from the element with an ID of 'dialog'. The dialog is "triggered" (shown) when element(s) with class <i>jqModal</i> are clicked. No parameters are passed, no fancy window decorations used.
+</div>
+
+
+
+
+<div class="jqmWindow" id="dialog">
+
+<a href="#" class="jqmClose">Close</a>
+<hr>
+<em>READ ME</em> -->
+This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
+
+<br /> <br />
+
+Please see the <a href="http://jquery.iceburg.net/jqmodal/">jqModal website</a> for more!
+
+<br /><br />
+<em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
+Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
+overlay is disabled.
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+$().ready(function() {
+	$('#dialog').jqm();
+});
+</script>
+
+</body>
+</html>
