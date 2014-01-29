@@ -138,7 +138,7 @@
 		
 		var o = e.data('jqm'),
 			z = /^\d+$/.test(e.css('z-index'))&&e.css('z-index')||o.zIndex,
-			v = $('<div></div>').css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100});
+			v = $('<div></div>').addClass(o.overlayClass).css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100});
 			
 			// maintain legacy "hash" construct
 			h = {w: e, c: o, o: v, t: t};
@@ -182,7 +182,7 @@
 		
 	}, onShow = function(hash){
 		// onShow callback. Responsible for showing a modal and overlay.
-		//  return false to stop showing modal. 
+		//  return false to stop opening modal. 
 		
 		// hash object;
 	    //  w: (jQuery object) The modal element
@@ -192,7 +192,7 @@
 		
 		// display the overlay (prepend to body) if not disabled
 		if(hash.c.overlay > 0)
-			hash.o.addClass(hash.c.overlayClass).prependTo('body');
+			hash.o.prependTo('body');
 			
 		// make modal visible
 		hash.w.show();
