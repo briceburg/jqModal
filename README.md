@@ -18,7 +18,7 @@ Change log
 
 Work in progress. Refer to the jqModal website:
 
-* http://jquery.iceburg.net/jqmodal
+* http://jquery.iceburg.net/jqModal
   
 
 The jqModal website code is available on github -- please feel free to contribute examples and fix documentation.
