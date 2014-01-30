@@ -1,9 +1,9 @@
 jqModal Changes By Release
 ==========================
 
-## r17 (pending)
+## r17 2014.01.30
 
-TODO:
+* focus function is now overridable via $.jqm.focusFunc
 * re-implement r14, r13 changes [fork rewrite was of previous version]
 
 
@@ -26,7 +26,7 @@ TODO:
 ## r14 2009.03.01
 
 
-* smart detection of the triggering element. This allows you to call $.jqmShow() and $.jqmHide() within the event context of a non-initialized triggering element, and that element will mask a proper initialized trigger. This (very minor) change is intended to improve the plugin's natural behavior -- that is; to behave as expected. It will make "live querying" modal triggers easier for some.
+* smart detection of the triggering element. The event context is now always passed to $.jqmShow() and $.jqmHide(). Makes "live querying" modal triggers easier for some.
 
 
 ## r13 2008.07.06
