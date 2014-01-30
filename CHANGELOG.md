@@ -1,7 +1,7 @@
 jqModal Changes By Release
 ==========================
 
-## r17 2014.01.30
+## r17 2014.01.30 (aka version 1.0.0)
 
 * focus function is now overridable via $.jqm.focusFunc
 * re-implement r14, r13 changes [fork rewrite was of previous version]
