@@ -2,10 +2,11 @@
  * jqModal - Minimalist Modaling with jQuery
  *
  * Copyright (c) 2007-2014 Brice Burgess @iceburg_net
- * Released under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html
  * 
- * $Version: 2014.01.28 +r16
+ * $Version: 2014.01.30 +r17
  * Requires: jQuery 1.2.3+
  */
 
@@ -23,40 +24,8 @@
 	
 	$.fn.jqm=function(options){
 		
-		/**
-		 *  default options
-		 *  
-		 * (Integer)   zIndex       - Desired z-Index of modal element. Will not override existing z-index styles (set inline or via CSS).  
-		 * (Integer)   overlay      - [0-100] Translucency percentage (opacity) of the body covering overlay. Set to 0 for NO overlay, and up to 100 for a 100% opaque overlay.  
-		 * (String)    overlayClass - Applied to the body covering overlay. Useful for controlling overlay look (tint, background-image, &c) with CSS.
-		 * (String)    closeClass   - Children of the modal element matching `closeClass` will fire the onHide event (to close the modal).
-		 * (Mixed)     trigger      - Matching elements will fire the onShow event (to display the modal). Trigger can be a selector String, a jQuery collection of elements, a DOM element, or a False boolean.
-		 * (String)    ajax         - URL to load content from via an AJAX request. False to disable ajax. If ajax begins with a "@", the URL is extracted from the attribute of the triggering element (e.g. use '@data-url' for; <a href="#" class="jqModal" data-url="modal.html">...)	                
-		 * (Mixed)     target       - Children of the modal element to load the ajax response into. If false, modal content will be overwritten by ajax response. Useful for retaining modal design. 
-		 *                            Target may be a selector string, jQuery collection of elements, or a DOM element -- and MUST exist as a child of the modal element.
-		 * (Boolean)   modal        - If true, user interactivity will be locked to the modal window until closed.
-		 * (Boolean)   toTop        - If true, modal will be posistioned as a first child of the BODY element when opened, and its DOM posistion restored when closed. Useful for overcoming z-Index container issues.
-		 * (Function)  onShow       - User defined callback function fired when modal opened.
-		 * (Function)  onHide       - User defined callback function fired when modal closed.
-		 * (Function)  onLoad       - User defined callback function fired when ajax content loads.
-		 */
-		var o = {
-			zIndex: 3000,
-			overlay: 50,
-			overlayClass: 'jqmOverlay',
-			closeClass: 'jqmClose',
-			trigger: '.jqModal',
-			ajax: false,
-			target: false,
-			modal: false,
-			toTop: false,
-			onShow: onShow,
-			onHide: onHide,
-			onLoad: false
-		};
-		
-		$.extend(o,options);
-		
+		var o = $.extend({}, $.jqm.params, options);
+
 		return this.each(function(){
 			var e = $(this),
 				jqm = $(this).data('jqm');
@@ -137,9 +106,11 @@
 		 */
 		
 		var o = e.data('jqm'),
-			z = /^\d+$/.test(e.css('z-index'))&&e.css('z-index')||o.zIndex,
+			t = t || window.event,
+			z = (parseInt(e.css('z-index'))),
+			z = (z > 0) ? z : 3000,
 			v = $('<div></div>').addClass(o.overlayClass).css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100});
-			
+		
 			// maintain legacy "hash" construct
 			h = {w: e, c: o, o: v, t: t};
 			
@@ -156,11 +127,10 @@
 			   // Fire the onLoad callback (if exists),
 			   // Attach closing events to elements inside the modal that match the closingClass,
 			   // and Execute the jqModal default Open Callback
-			target.load(url,function(){
+			target.html(o.ajaxText).load(url,function(){
 				o.onLoad && o.onLoad.call(this,h);
 				open(h);
-			});				
-			
+			});	
 		}
 		else { open(h); }
 		
@@ -174,6 +144,7 @@
 		 */
 		
 		var o = e.data('jqm'),
+			t = t || window.event,
 		
 		// maintain legacy "hash" construct
 		h = {w: e, c: o, o: e.data('jqmv'), t: t};
@@ -197,8 +168,8 @@
 		// make modal visible
 		hash.w.show();
 		
-		// attempt to focus on first input in modal
-		$(':input:visible:first',hash.w).focus();
+		// call focusFunc (attempts to focus on first input in modal)
+		$.jqm.focusFunc(hash.w);
 		
 		return true;
 		
@@ -260,11 +231,10 @@
 			// if modal dialog 
 			//
 			// Bind the Keep Focus Function [F] if no other Modals are open (!A[0]) +
-			// Add this modal to the opened modals stack (A) for nested modal support +
-			// Mark overlay to show wait cursor when mouse hovers over it.
+			// Add this modal to the opened modals stack (A) for nested modal support
 			// 
 			// else, close dialog when overlay is clicked
-			if(o.modal){ !A[0]&&F('bind'); A.push(e); v.css('cursor','wait'); }
+			if(o.modal){ !A[0]&&F('bind'); A.push(e); }
             else e.jqmAddClose(v);
 			
 			//  Attach closing events to elements inside the modal that match the closingClass
@@ -319,13 +289,51 @@
 		// allow bubbling if event target is within active modal dialog
 		if(modal && modal.ID == activeModal.ID) return true; 
 
-		// else, try to focus on first input element and halt bubbling
-		$(':input:visible:first',activeModal).focus();
-    	return false;
-		
+		// else, trigger focusFunc (focus on first input element and halt bubbling)
+		return $.jqm.focusFunc(activeModal);
 	}, 
 	
 	I = 0,   // modal ID increment (for nested modals) 
-	A = [];  // array of active modals (used to lock interactivity to appropriate modal) 
+	A = [];  // array of active modals (used to lock interactivity to appropriate modal)
+	
+	
+	// $.jqm, overridable defaults
+	$.jqm = {
+		/**
+		 *  default options
+		 *    
+		 * (Integer)   overlay      - [0-100] Translucency percentage (opacity) of the body covering overlay. Set to 0 for NO overlay, and up to 100 for a 100% opaque overlay.  
+		 * (String)    overlayClass - Applied to the body covering overlay. Useful for controlling overlay look (tint, background-image, &c) with CSS.
+		 * (String)    closeClass   - Children of the modal element matching `closeClass` will fire the onHide event (to close the modal).
+		 * (Mixed)     trigger      - Matching elements will fire the onShow event (to display the modal). Trigger can be a selector String, a jQuery collection of elements, a DOM element, or a False boolean.
+		 * (String)    ajax         - URL to load content from via an AJAX request. False to disable ajax. If ajax begins with a "@", the URL is extracted from the attribute of the triggering element (e.g. use '@data-url' for; <a href="#" class="jqModal" data-url="modal.html">...)	                
+		 * (Mixed)     target       - Children of the modal element to load the ajax response into. If false, modal content will be overwritten by ajax response. Useful for retaining modal design. 
+		 *                            Target may be a selector string, jQuery collection of elements, or a DOM element -- and MUST exist as a child of the modal element.
+		 * (String)    ajaxText     - Text shown while waiting for ajax return. Replaces HTML content of `target` element.
+		 * (Boolean)   modal        - If true, user interactivity will be locked to the modal window until closed.
+		 * (Boolean)   toTop        - If true, modal will be posistioned as a first child of the BODY element when opened, and its DOM posistion restored when closed. Useful for overcoming z-Index container issues.
+		 * (Function)  onShow       - User defined callback function fired when modal opened.
+		 * (Function)  onHide       - User defined callback function fired when modal closed.
+		 * (Function)  onLoad       - User defined callback function fired when ajax content loads.
+		 */
+		params: {
+			overlay: 50,
+			overlayClass: 'jqmOverlay',
+			closeClass: 'jqmClose',
+			trigger: '.jqModal',
+			ajax: false,
+			target: false,
+			ajaxText: '',
+			modal: false,
+			toTop: false,
+			onShow: onShow,
+			onHide: onHide,
+			onLoad: false
+		},
+		
+		// focusFunc is fired when a modal is shown, or when interaction occurs outside
+		// a modal enabled dialog. Passed the modal element. 
+		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; }
+	};
 	
 })( jQuery, window );
