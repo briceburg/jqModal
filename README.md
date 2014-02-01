@@ -3,7 +3,9 @@ jqModal
 
 jqModal is a plugin for jQuery to help you display modals, popups, and notices. It is flexible and tiny, akin to a "Swiss Army Knife", and provides a great base for your windowing needs.
 
-Read the documenttion and more at  http://jquery.iceburg.net/jqModal
+Read the documenttion and more at http://jquery.iceburg.net/jqModal
+
+See [Examples / Demonstration](http://jquery.iceburg.net/jqModal/#examples)
 
 
 Features
@@ -16,10 +18,24 @@ Features
 * Multiple Modals per page (including nested Modal-in-Modal)
 
 
-Demonstration
+Development
 =============
 
-[All Examples](http://jquery.iceburg.net/jqModal/#examples)
+Development of jqModal occurs in the -master branch on [jqModal.js](https://github.com/briceburg/jqModal/blob/master/jqModal.js). 
+The [CHANGELOG.md](https://github.com/briceburg/jqModal/blob/master/CHANGELOG.md) is to be kept up to date with changes.
+
+
+## Release Process
+
+* Version jqModal.js `YYYY.MM.DD +r<revision> (aka <semver>)`
+* Minify jqModal.js -> jqModal.min.js
+* Update jqModal.jquery.json, bumping <semver> version
+* Ensure changelog is up to date
+* Copy jqModal.js to `releases/jqModal-r<revision>.js`
+* Merge -master with -release
+* Ensure `releases/` is absent from -release branch
+* Tag -release with <semver> : `git tag <semver> && git push origin --tags` to publish.
+
 
 
 Get Involved
@@ -27,20 +43,22 @@ Get Involved
 
 Report issues to the github issue tracker.
 
+* https://github.com/briceburg/jqModal/issues
+
+
 For *support*, please post to stackoverflow using the jqmodal tag:
 
 * http://stackoverflow.com/questions/ask?tags=jqmodal
 
 
-The jqModal website code is available on github -- please feel free to contribute examples and fix documentation.
+The jqModal website code is available on github -- please do contribute improvements.
 
 * https://github.com/iceburg-net/jquery.iceburg.net/tree/master/www-1/jqModal
-
 
 
 Author
 ======
 
-Brice Burgess @iceburgBrice
+Brice Burgess [@iceburgBrice](https://twitter.com/IceburgBrice)
 
 Released under the MIT License: http://www.opensource.org/licenses/mit-license.php
