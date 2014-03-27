@@ -1,6 +1,10 @@
 jqModal Changes By Release
 ==========================
 
+## r17 2014.03.27
+
+* strict mode fix - thanks @Piokaz 
+
 ## r17 2014.01.30 (aka version 1.0.0)
 
 * focus function is now overridable via $.jqm.focusFunc
