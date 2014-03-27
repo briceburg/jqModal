@@ -6,7 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  * 
- * $Version: 2014.01.30 +r17 (aka 1.0.0)
+ * $Version: 2014.03.27 +r18
  * Requires: jQuery 1.2.3+
  */
 
@@ -109,7 +109,7 @@
 			t = t || window.event,
 			z = (parseInt(e.css('z-index'))),
 			z = (z > 0) ? z : 3000,
-			v = $('<div></div>').addClass(o.overlayClass).css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100});
+			v = $('<div></div>').addClass(o.overlayClass).css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100}),
 		
 			// maintain legacy "hash" construct
 			h = {w: e, c: o, o: v, t: t};
