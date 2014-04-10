@@ -27,7 +27,7 @@ The [CHANGELOG.md](https://github.com/briceburg/jqModal/blob/master/CHANGELOG.md
 
 ## Release Process
 
-* Version jqModal.js `YYYY.MM.DD +r<revision> (aka <semver>)`
+* Version jqModal.js `<semver> (YYYY.MM.DD +r<revision>)`
 * Minify jqModal.js -> jqModal.min.js
 * Update jqModal.jquery.json, bumping <semver> version
 * Ensure changelog is up to date

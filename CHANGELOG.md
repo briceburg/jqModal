@@ -1,11 +1,15 @@
 jqModal Changes By Release
 ==========================
 
-## r17 2014.03.27
+## 1.0.2 (2014.04.10 +r19)
+
+* fixed registration / jQuery NoConflict - thanks @mitja-p 
+
+## 1.0.1 (2014.03.27 +r18)
 
 * strict mode fix - thanks @Piokaz 
 
-## r17 2014.01.30 (aka version 1.0.0)
+## 1.0.0 (2014.01.30 +r17)
 
 * focus function is now overridable via $.jqm.focusFunc
 * re-implement r14, r13 changes [fork rewrite was of previous version]
