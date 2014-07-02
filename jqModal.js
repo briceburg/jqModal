@@ -23,20 +23,16 @@
 	 */
 	
 	$.fn.jqm=function(options){
-		
-		var o = $.extend({}, $.jqm.params, options);
-
 		return this.each(function(){
 			var e = $(this),
-				jqm = e.data('jqm');
-			
-			if(!jqm) jqm = {ID: I++};
+				jqm = e.data('jqm') || $.extend({ID: I++}, $.jqm.params),
+				o = $.extend(jqm,options);
 			
 			// add/extend options to modal and mark as initialized
-			e.data('jqm',$.extend(jqm,o)).addClass('jqm-init');
+			e.data('jqm',o).addClass('jqm-init');
 			
 			// ... Attach events to trigger showing of this modal
-			o.trigger&&$(this).jqmAddTrigger(o.trigger);
+			o.trigger && e.jqmAddTrigger(o.trigger);
 		});
 	};
 	
