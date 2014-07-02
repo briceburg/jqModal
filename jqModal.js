@@ -6,7 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  * 
- * $Version: 1.0.2 (2014.04.10 +r19)
+ * $Version: 1.0.3 (2014.07.03 +r20)
  * Requires: jQuery 1.2.3+
  */
 
@@ -28,12 +28,12 @@
 
 		return this.each(function(){
 			var e = $(this),
-				jqm = $(this).data('jqm');
+				jqm = e.data('jqm');
 			
 			if(!jqm) jqm = {ID: I++};
 			
 			// add/extend options to modal and mark as initialized
-			e.data('jqm',$.extend(o,jqm)).addClass('jqm-init');
+			e.data('jqm',$.extend(jqm,o)).addClass('jqm-init');
 			
 			// ... Attach events to trigger showing of this modal
 			o.trigger&&$(this).jqmAddTrigger(o.trigger);
