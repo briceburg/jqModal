@@ -16,7 +16,7 @@ Features
 * Developer friendly - Extensible through callbacks to make anything possible (gallery slideshows, video-conferencing, &c)
 * Simple support for remotely loaded content (aka "ajax")
 * Multiple Modals per page (including nested Modal-in-Modal)
-
+* Supported by all browsers capable of running jQuery 1.2.3+
 
 Development
 =============
