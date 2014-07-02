@@ -187,41 +187,33 @@
 		
 		
 	},  addTrigger = function(e, key, trigger){
-		// addTrigger: Adds a jqmShow or jqmHide (key) for a modal (e) 
-		//  all elements that match trigger string (trigger)
+		// addTrigger: Adds a jqmShow/jqmHide (key) event click on modal (e)
+		//  to all elements that match trigger string (trigger)
 		
 		var jqm = e.data('jqm');
 		
 		// return false if e is not an initialized modal element
-		if(!jqm) return false;
+		if(!e.data('jqm')) return false;
 		
 		return $(trigger).each(function(){
-			var lookup = key + 'ids';
+			this[key] = this[key] || [];
 			
-			// register hide/show stack for this trigger
-			if(typeof(this[key])  === "undefined") {
-				this[key] = [];
-				this[lookup] = [];
+			// register this modal with this trigger only once
+			if($.inArray(jqm.ID,this[key]) < 0) {
+				this[key].push(jqm.ID);
+				
+				// register trigger click event for this modal
+				$(this).click(function(){
+					var trigger = this;
+					
+					e[key](this);
+					
+					// stop trigger click event from bubbling
+					return false;
+				});
 			}
 			
-			// add this modal to the trigger's hide/show stack only once	
-			if($.inArray(jqm.ID,this[lookup]) < 0) {
-				this[key].push(e);
-				this[lookup].push(jqm.ID);
-			}
-			
-		}).click(function(){
-			
-			var trigger = this;
-			
-			// for each modal registered to this trigger, call jqmShow || 
-			//   jqmHide (key) on modal passing trigger element (e)
-			$.each(this[key], function(i, e){ e[key](trigger); });
-			
-			// stop trigger click event from bubbling
-			return false;
 		});
-		
 		
 	},  open = function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
