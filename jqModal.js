@@ -1,7 +1,7 @@
 /*
  * jqModal - Minimalist Modaling with jQuery
  *
- * Copyright (c) 2007-2014 Brice Burgess @iceburg_net
+ * Copyright (c) 2007-2014 Brice Burgess @IceburgBrice
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
