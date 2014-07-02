@@ -6,7 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  * 
- * $Version: 1.0.3 (2014.07.03 +r20)
+ * $Version: 1.1.0 (2014.07.03 +r21)
  * Requires: jQuery 1.2.3+
  */
 
@@ -188,21 +188,33 @@
 		
 	},  addTrigger = function(e, key, trigger){
 		// addTrigger: Adds a jqmShow or jqmHide (key) for a modal (e) 
-		//  all elements that match trigger string (trigger)\
+		//  all elements that match trigger string (trigger)
+		
+		var jqm = e.data('jqm');
 		
 		// return false if e is not an initialized modal element
-		if(!e.data('jqm')) return false;
+		if(!jqm) return false;
 		
 		return $(trigger).each(function(){
-			// register modal to trigger elements
-			this[key] = this[key] || [];
-			this[key].push(e);
+			var lookup = key + 'ids';
+			
+			// register hide/show stack for this trigger
+			if(typeof(this[key])  === "undefined") {
+				this[key] = [];
+				this[lookup] = [];
+			}
+			
+			// add this modal to the trigger's hide/show stack only once	
+			if($.inArray(jqm.ID,this[lookup]) < 0) {
+				this[key].push(e);
+				this[lookup].push(jqm.ID);
+			}
 			
 		}).click(function(){
 			
 			var trigger = this;
 			
-			// foreadh modal registered to this trigger, call jqmShow || 
+			// for each modal registered to this trigger, call jqmShow || 
 			//   jqmHide (key) on modal passing trigger element (e)
 			$.each(this[key], function(i, e){ e[key](trigger); });
 			
