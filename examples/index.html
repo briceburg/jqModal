@@ -18,24 +18,45 @@
 Out-of-box behavior. The window and its content is taken "inline" from the element with an ID of 'dialog'. The dialog is "triggered" (shown) when element(s) with class <i>jqModal</i> are clicked. No parameters are passed, no fancy window decorations used.
 </div>
 
+<div style="width: 600px; margin: 2em auto;">
+2. <em>Ajax</em> -- <a href="#" class="jqm-trigger-ajax">click to trigger modal</a>
+<br/>
+Will open a modal that loads content from a remote server. This page must be served through a webserver to work. <br /> &nbsp;&nbsp; (e.g. http://  and not file://).
+</div>
+
+
+<div style="width: 600px; margin: 2em auto;">
+2. <em>Manual trigger, extend options</em> -- <a href="#" id="trigger-ajax-with-timestamp">click to trigger modal</a>
+<br/>
+Demonstrates a manual trigger of `jqmShow` as well as updating the options object. 
+</div>
+
 
 
 
 <div class="jqmWindow" id="dialog">
+	<a href="#" class="jqmClose">Close</a>
+	<hr>
+	<em>READ ME</em> -->
+	This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
+	
+	<br /> <br />
+	
+	Please see the <a href="http://jquery.iceburg.net/jqmodal/">jqModal website</a> for more!
+	
+	<br /><br />
+	<em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
+	Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
+	overlay is disabled.
+</div>
 
-<a href="#" class="jqmClose">Close</a>
-<hr>
-<em>READ ME</em> -->
-This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
 
-<br /> <br />
-
-Please see the <a href="http://jquery.iceburg.net/jqmodal/">jqModal website</a> for more!
-
-<br /><br />
-<em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
-Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
-overlay is disabled.
+<div class="jqmWindow" id="ajax-dialog">
+    <a href="#" class="jqmClose">Close</a>
+    
+    <hr />
+    
+    <div class="ajax-content"></div>
 </div>
 
 
@@ -47,6 +68,21 @@ overlay is disabled.
 <script type="text/javascript">
 $().ready(function() {
 	$('#dialog').jqm();
+	
+	$('#ajax-dialog').jqm({
+		trigger: 'a.jqm-trigger-ajax',
+		ajax: 'ajax.php',
+		target: 'div.ajax-content'
+	});
+	
+	
+	$('#trigger-ajax-with-timestamp').click(function(){
+		$('#ajax-dialog')
+		  .jqm({ajax: 'ajax.php?timestamp=33'})
+		  .jqmShow();
+	});
+	
+	
 });
 </script>
 

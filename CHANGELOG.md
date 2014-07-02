@@ -1,6 +1,11 @@
 jqModal Changes By Release
 ==========================
 
+## 1.0.3 (2014.07.03 +r20)
+
+* subsequent calls to $.jqm() extend options as expected - thanks @earbash
+* added ajax and option overriding to examples
+
 ## 1.0.2 (2014.04.10 +r19)
 
 * fixed registration / jQuery NoConflict - thanks @mitja-p 

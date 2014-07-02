@@ -18,6 +18,7 @@ Features
 * Multiple Modals per page (including nested Modal-in-Modal)
 * Supported by all browsers capable of running jQuery 1.2.3+
 
+
 Development
 =============
 
