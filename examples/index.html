@@ -12,6 +12,11 @@
 <body>
 
 
+<!----------------- 
+  TRIGGER ELEMENTS
+------------------->
+
+
 <div style="width: 600px; margin: 2em auto;">
 1. <em>Defaults</em> -- <a href="#" class="jqModal">click to trigger modal</a>
 <br/>
@@ -32,22 +37,24 @@ Demonstrates a manual trigger of `jqmShow` as well as updating the options objec
 </div>
 
 
-
+<!------------- 
+  MODAL MARKUP (styled via jqModal.css)
+--------------->
 
 <div class="jqmWindow" id="dialog">
-	<a href="#" class="jqmClose">Close</a>
-	<hr>
-	<em>READ ME</em> -->
-	This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
-	
-	<br /> <br />
-	
-	Please see the <a href="http://jquery.iceburg.net/jqmodal/">jqModal website</a> for more!
-	
-	<br /><br />
-	<em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
-	Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
-	overlay is disabled.
+    <a href="#" class="jqmClose">Close</a>
+    <hr>
+    <em>READ ME</em> -->
+    This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
+    
+    <br /> <br />
+    
+    Please see the <a href="http://jquery.iceburg.net/jqmodal/">jqModal website</a> for more!
+    
+    <br /><br />
+    <em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
+    Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
+    overlay is disabled.
 </div>
 
 
@@ -60,32 +67,46 @@ Demonstrates a manual trigger of `jqmShow` as well as updating the options objec
 </div>
 
 
-
-
-
+<!------------
+ MODAL SCRIPT
+-------------->
 
 
 <script type="text/javascript">
 $().ready(function() {
-	$('#dialog').jqm();
-	
-	$('#ajax-dialog').jqm({
-		trigger: 'a.jqm-trigger-ajax',
-		ajax: 'ajax.php',
-		target: 'div.ajax-content'
-	});
-	
-	
-	$('#trigger-ajax-with-timestamp').click(function(){
-		
-		var timestamp = new Date().getTime();
-		
-		$('#ajax-dialog')
-		  .jqm({ajax: 'ajax.php?timestamp=' + timestamp, trigger: false})
-		  .jqmShow();
-	});
-	
-	
+    
+    /************
+      Example #1
+     ************/
+     
+    $('#dialog').jqm();
+    
+    
+    /************
+      Example #2
+     ************/
+    
+    $('#ajax-dialog').jqm({
+        trigger: 'a.jqm-trigger-ajax',
+        ajax: 'ajax.php',
+        target: 'div.ajax-content'
+    });
+    
+    
+    /************
+      Example #3
+     ************/
+    
+    $('#trigger-ajax-with-timestamp').click(function(){
+        
+        var timestamp = new Date().getTime();
+        
+        $('#ajax-dialog')
+          .jqm({ajax: 'ajax.php?timestamp=' + timestamp}) // update an option
+          .jqmShow(); // show modal
+    });
+    
+    
 });
 </script>
 

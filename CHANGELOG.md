@@ -1,7 +1,12 @@
 jqModal Changes By Release
 ==========================
 
-## 1.0.3 (2014.07.03 +r20)
+## 1.1.0 (2014.07.03 +r21)
+
+* allow modification of a signle option with subsequent $.jqm() calls -- do not extend with default $.jqm.params. 
+* simplify addTrigger method and ensure subsequent calls don't append additional click events to triggers.
+
+## 1.0.3 (2014.07.02 +r20)
 
 * subsequent calls to $.jqm() extend options as expected - thanks @earbash
 * added ajax and option overriding to examples

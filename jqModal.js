@@ -6,7 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  * 
- * $Version: 1.0.3 (2014.07.03 +r20)
+ * $Version: 1.1.0 (2014.07.03 +r21)
  * Requires: jQuery 1.2.3+
  */
 
@@ -23,20 +23,16 @@
 	 */
 	
 	$.fn.jqm=function(options){
-		
-		var o = $.extend({}, $.jqm.params, options);
-
 		return this.each(function(){
 			var e = $(this),
-				jqm = e.data('jqm');
-			
-			if(!jqm) jqm = {ID: I++};
+				jqm = e.data('jqm') || $.extend({ID: I++}, $.jqm.params),
+				o = $.extend(jqm,options);
 			
 			// add/extend options to modal and mark as initialized
-			e.data('jqm',$.extend(jqm,o)).addClass('jqm-init');
+			e.data('jqm',o).addClass('jqm-init');
 			
 			// ... Attach events to trigger showing of this modal
-			o.trigger&&$(this).jqmAddTrigger(o.trigger);
+			o.trigger && e.jqmAddTrigger(o.trigger);
 		});
 	};
 	
@@ -191,29 +187,33 @@
 		
 		
 	},  addTrigger = function(e, key, trigger){
-		// addTrigger: Adds a jqmShow or jqmHide (key) for a modal (e) 
-		//  all elements that match trigger string (trigger)\
+		// addTrigger: Adds a jqmShow/jqmHide (key) event click on modal (e)
+		//  to all elements that match trigger string (trigger)
+		
+		var jqm = e.data('jqm');
 		
 		// return false if e is not an initialized modal element
 		if(!e.data('jqm')) return false;
 		
 		return $(trigger).each(function(){
-			// register modal to trigger elements
 			this[key] = this[key] || [];
-			this[key].push(e);
 			
-		}).click(function(){
+			// register this modal with this trigger only once
+			if($.inArray(jqm.ID,this[key]) < 0) {
+				this[key].push(jqm.ID);
+				
+				// register trigger click event for this modal
+				$(this).click(function(){
+					var trigger = this;
+					
+					e[key](this);
+					
+					// stop trigger click event from bubbling
+					return false;
+				});
+			}
 			
-			var trigger = this;
-			
-			// foreadh modal registered to this trigger, call jqmShow || 
-			//   jqmHide (key) on modal passing trigger element (e)
-			$.each(this[key], function(i, e){ e[key](trigger); });
-			
-			// stop trigger click event from bubbling
-			return false;
 		});
-		
 		
 	},  open = function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
