@@ -77,8 +77,11 @@ $().ready(function() {
 	
 	
 	$('#trigger-ajax-with-timestamp').click(function(){
+		
+		var timestamp = new Date().getTime();
+		
 		$('#ajax-dialog')
-		  .jqm({ajax: 'ajax.php?timestamp=33'})
+		  .jqm({ajax: 'ajax.php?timestamp=' + timestamp, trigger: false})
 		  .jqmShow();
 	});
 	
