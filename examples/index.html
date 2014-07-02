@@ -12,6 +12,11 @@
 <body>
 
 
+<!----------------- 
+  TRIGGER ELEMENTS
+------------------->
+
+
 <div style="width: 600px; margin: 2em auto;">
 1. <em>Defaults</em> -- <a href="#" class="jqModal">click to trigger modal</a>
 <br/>
@@ -32,7 +37,9 @@ Demonstrates a manual trigger of `jqmShow` as well as updating the options objec
 </div>
 
 
-
+<!------------- 
+  MODAL MARKUP (styled via jqModal.css)
+--------------->
 
 <div class="jqmWindow" id="dialog">
     <a href="#" class="jqmClose">Close</a>
@@ -60,10 +67,24 @@ Demonstrates a manual trigger of `jqmShow` as well as updating the options objec
 </div>
 
 
+<!------------
+ MODAL SCRIPT
+-------------->
+
 
 <script type="text/javascript">
 $().ready(function() {
-    $('#dialog').jqm();
+    
+	/************
+	  Example #1
+	 ************/
+	 
+	$('#dialog').jqm();
+	
+	
+	/************
+      Example #2
+     ************/
     
     $('#ajax-dialog').jqm({
         trigger: 'a.jqm-trigger-ajax',
@@ -71,17 +92,18 @@ $().ready(function() {
         target: 'div.ajax-content'
     });
     
-    
+	
+    /************
+      Example #3
+     ************/
+	
     $('#trigger-ajax-with-timestamp').click(function(){
         
         var timestamp = new Date().getTime();
         
         $('#ajax-dialog')
-          // update an option
-          .jqm({ajax: 'ajax.php?timestamp=' + timestamp})
-          
-          // show modal
-          .jqmShow();
+          .jqm({ajax: 'ajax.php?timestamp=' + timestamp}) // update an option
+          .jqmShow(); // show modal
     });
     
     
