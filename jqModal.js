@@ -249,7 +249,7 @@
 			// remember overlay (for closing function)
 			e.data('jqmv',v);
 
-			// close model if the esc key is pressed
+			// close modal if the esc key is pressed and closeOnEsc is set to true
 			var modal = $(h.w);
 			modal.unbind("keydown");
 			if (o.closeOnEsc) {
