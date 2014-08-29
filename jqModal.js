@@ -340,6 +340,7 @@
 		// focusFunc is fired when a modal is shown, or when interaction occurs outside
 		// a modal enabled dialog. Passed the modal element. 
 		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; },
+		// closeOnEscFunc is used when closeOnEsc param is set to true.
 		closeOnEscFunc: function(modal, o) {
 			modal.unbind("keydown", $.jqm.closeOnEscFunc)
 			if (o.closeOnEsc) {
