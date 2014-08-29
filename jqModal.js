@@ -251,7 +251,7 @@
 
 			// close modal if the esc key is pressed and closeOnEsc is set to true
 			var modal = $(h.w);
-			return $.jqm.closeOnEscFunc(modal, o)
+			return $.jqm.closeOnEscFunc(modal, o);
 		}
 		
 		
