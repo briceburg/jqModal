@@ -251,17 +251,7 @@
 
 			// close modal if the esc key is pressed and closeOnEsc is set to true
 			var modal = $(h.w);
-			modal.unbind("keydown");
-			if (o.closeOnEsc) {
-				modal.attr("tabindex", 0);
-				modal.bind("keydown", function (event) {
-					if (event.keyCode == 27) {
-						event.preventDefault();
-						modal.jqmHide();
-					}
-				});
-				modal.focus();
-			}
+			return $.jqm.closeOnEscFunc(modal, o)
 		}
 		
 		
@@ -349,7 +339,20 @@
 		
 		// focusFunc is fired when a modal is shown, or when interaction occurs outside
 		// a modal enabled dialog. Passed the modal element. 
-		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; }
+		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; },
+		closeOnEscFunc: function(modal, o) {
+			modal.unbind("keydown", $.jqm.closeOnEscFunc)
+			if (o.closeOnEsc) {
+				modal.attr("tabindex", 0);
+				modal.bind("keydown", $.jqm.closeOnEscFunc, function (event) {
+					if (event.keyCode == 27) {
+						event.preventDefault();
+						modal.jqmHide();
+					}
+				});
+				modal.focus();
+			}
+		}
 	};
 	
 })( jQuery );
