@@ -325,7 +325,7 @@
 			overlay: 50,
 			overlayClass: 'jqmOverlay',
 			closeClass: 'jqmClose',
-			closeOnEsc: true,
+			closeOnEsc: false,
 			trigger: '.jqModal',
 			ajax: false,
 			target: false,
