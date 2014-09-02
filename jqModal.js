@@ -238,7 +238,7 @@
 			if(o.modal){ !A[0]&&F('bind'); A.push(e); }
 			else e.jqmAddClose(v);
 			
-			//  Attach closing events to elements inside the modal that match the closingClass
+			//  Attach closing events to elements inside the modal matching closingClass
 			o.closeClass&&e.jqmAddClose($('.' + o.closeClass,e));
 			
 			// IF toTop is true and overlay exists;
@@ -250,8 +250,10 @@
 			e.data('jqmv',v);
 
 			// close modal if the esc key is pressed and closeOnEsc is set to true
-			var modal = $(h.w);
-			return $.jqm.closeOnEscFunc(modal, o);
+			e.unbind("keydown",$.jqm.closeOnEscFunc);
+			if(o.closeOnEsc) {
+				e.attr("tabindex", 0).bind("keydown",$.jqm.closeOnEscFunc).focus();
+			}
 		}
 		
 		
@@ -340,18 +342,11 @@
 		// focusFunc is fired when a modal is shown, or when interaction occurs outside
 		// a modal enabled dialog. Passed the modal element. 
 		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; },
-		// closeOnEscFunc is used when closeOnEsc param is set to true.
-		closeOnEscFunc: function(modal, o) {
-			modal.unbind("keydown", $.jqm.closeOnEscFunc)
-			if (o.closeOnEsc) {
-				modal.attr("tabindex", 0);
-				modal.bind("keydown", $.jqm.closeOnEscFunc, function (event) {
-					if (event.keyCode == 27) {
-						event.preventDefault();
-						modal.jqmHide();
-					}
-				});
-				modal.focus();
+		// closeOnEscFunc is attached to modals where closeOnEsc param true.
+		closeOnEscFunc: function(event){
+			if (event.keyCode == 27) {
+				$(this).jqmHide();
+				return false;
 			}
 		}
 	};
