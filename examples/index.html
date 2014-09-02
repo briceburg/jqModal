@@ -89,7 +89,8 @@ $().ready(function() {
     $('#ajax-dialog').jqm({
         trigger: 'a.jqm-trigger-ajax',
         ajax: 'ajax.php',
-        target: 'div.ajax-content'
+        target: 'div.ajax-content',
+        closeOnEsc: true
     });
     
 	
@@ -104,6 +105,8 @@ $().ready(function() {
         $('#ajax-dialog')
           .jqm({ajax: 'ajax.php?timestamp=' + timestamp}) // update an option
           .jqmShow(); // show modal
+          
+        return false;
     });
     
     
