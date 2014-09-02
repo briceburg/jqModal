@@ -108,7 +108,7 @@
 			v = $('<div></div>').addClass(o.overlayClass).css({height:'100%',width:'100%',position:'fixed',left:0,top:0,'z-index':z-1,opacity:o.overlay/100}),
 		
 			// maintain legacy "hash" construct
-			h = {w: e, c: o, o: v, t: t};
+			h = {w: e, c: o, o: v, t: t};	
 			
 		e.css('z-index',z);
 
@@ -152,10 +152,10 @@
 		//  return false to stop opening modal. 
 		
 		// hash object;
-	    //  w: (jQuery object) The modal element
-	    //  c: (object) The modal's options object 
-	    //  o: (jQuery object) The overlay element
-	    //  t: (DOM object) The triggering element
+		//  w: (jQuery object) The modal element
+		//  c: (object) The modal's options object 
+		//  o: (jQuery object) The overlay element
+		//  t: (DOM object) The triggering element
 		
 		// display the overlay (prepend to body) if not disabled
 		if(hash.c.overlay > 0)
@@ -175,10 +175,10 @@
 		//  return false to stop closing modal. 
 		
 		// hash object;
-	    //  w: (jQuery object) The modal element
-	    //  c: (object) The modal's options object 
-	    //  o: (jQuery object) The overlay element
-	    //  t: (DOM object) The triggering element
+		//  w: (jQuery object) The modal element
+		//  c: (object) The modal's options object 
+		//  o: (jQuery object) The overlay element
+		//  t: (DOM object) The triggering element
 		
 		// hide modal and if overlay, remove overlay.
 		hash.w.hide() && hash.o && hash.o.remove();
@@ -219,9 +219,10 @@
 		// open: executes the onOpen callback + performs common tasks if successful
 
 		// transform legacy hash into new var shortcuts 
-		 var e = h.w,
-		 	v = h.o,
-		 	o = h.c;	
+		var e = h.w,
+			v = h.o,
+			o = h.c;
+		
 
 		// execute onShow callback
 		if(o.onShow(h) !== false){
@@ -235,7 +236,7 @@
 			// 
 			// else, close dialog when overlay is clicked
 			if(o.modal){ !A[0]&&F('bind'); A.push(e); }
-            else e.jqmAddClose(v);
+			else e.jqmAddClose(v);
 			
 			//  Attach closing events to elements inside the modal that match the closingClass
 			o.closeClass&&e.jqmAddClose($('.' + o.closeClass,e));
@@ -247,6 +248,10 @@
 			
 			// remember overlay (for closing function)
 			e.data('jqmv',v);
+
+			// close modal if the esc key is pressed and closeOnEsc is set to true
+			var modal = $(h.w);
+			return $.jqm.closeOnEscFunc(modal, o);
 		}
 		
 		
@@ -255,8 +260,8 @@
 
 		// transform legacy hash into new var shortcuts 
 		 var e = h.w,
-		 	v = h.o,
-		 	o = h.c;
+			v = h.o,
+			o = h.c;
 
 		// execute onShow callback
 		if(o.onHide(h) !== false){
@@ -320,6 +325,7 @@
 			overlay: 50,
 			overlayClass: 'jqmOverlay',
 			closeClass: 'jqmClose',
+			closeOnEsc: false,
 			trigger: '.jqModal',
 			ajax: false,
 			target: false,
@@ -333,7 +339,21 @@
 		
 		// focusFunc is fired when a modal is shown, or when interaction occurs outside
 		// a modal enabled dialog. Passed the modal element. 
-		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; }
+		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; },
+		// closeOnEscFunc is used when closeOnEsc param is set to true.
+		closeOnEscFunc: function(modal, o) {
+			modal.unbind("keydown", $.jqm.closeOnEscFunc)
+			if (o.closeOnEsc) {
+				modal.attr("tabindex", 0);
+				modal.bind("keydown", $.jqm.closeOnEscFunc, function (event) {
+					if (event.keyCode == 27) {
+						event.preventDefault();
+						modal.jqmHide();
+					}
+				});
+				modal.focus();
+			}
+		}
 	};
 	
 })( jQuery );
