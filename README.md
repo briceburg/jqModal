@@ -18,16 +18,25 @@ Features
 Usage
 =====
 
-
+markup
 ```html
-<a class="button" data-modal="{{ video_id }}" href="$//www.youtube.com/embed/{{ video_id }}">Watch</a>
+<a 
+  class="button" 
+  data-modal="{{ video_id }}" href="$//www.youtube.com/embed/{{ video_id }}">
+  Watch</a>
 
 <div class="modal-dialog modal-video" data-modal="{{ video_id }}">
-  <iframe width="560" height="315" src="//www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
+  <iframe 
+    width="560" 
+    height="315" 
+    src="//www.youtube.com/embed/{{ video_id }}" 
+    frameborder="0" 
+    allowfullscreen></iframe>
 </div>
 
 ```
 
+script
 
 ```js
 $('div.modal-dialog').each(function(){
@@ -40,23 +49,11 @@ $('div.modal-dialog').each(function(){
     trigger: trigger
   });
 
-  // for video modals, replace contents on closing the modal to stop playing.
-  //  it's preferable to use the runtime javascript API, but this works for all. 
-  if ($(this).is('.modal-video')) {
-    $(this).jqm({
-      onShow: function(hash){
-        hash.w.data('original-html',hash.w.html()).show();
-      },
-      onHide: function(hash){
-        hash.w.hide().empty().html(hash.w.data('original-html'));
-        hash.o.remove();
-      }
-    });
-  }
 });
 
 ```
 
+styling
 ```css
 div.modal-dialog {
     display: none;
