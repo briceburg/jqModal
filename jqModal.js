@@ -165,7 +165,7 @@
 		hash.w.show();
 		
 		// call focusFunc (attempts to focus on first input in modal)
-		$.jqm.focusFunc(hash.w);
+		$.jqm.focusFunc(hash.w,null);
 		
 		return true;
 		
@@ -297,7 +297,7 @@
 		if(modal && modal.ID == activeModal.ID) return true; 
 
 		// else, trigger focusFunc (focus on first input element and halt bubbling)
-		return $.jqm.focusFunc(activeModal);
+		return $.jqm.focusFunc(activeModal,e);
 	}, 
 	
 	I = 0,   // modal ID increment (for nested modals) 
@@ -339,9 +339,21 @@
 			onLoad: false
 		},
 		
-		// focusFunc is fired when a modal is shown, or when interaction occurs outside
-		// a modal enabled dialog. Passed the modal element. 
-		focusFunc: function(e) { $(':input:visible:first',e).focus(); return false; },
+		// focusFunc is fired:
+		//   a) when a modal:true dialog is shown, 
+		//   b) when an event occurs outside an active modal:true dialog
+		// It is passed the active modal:true dialog as well as event 
+		focusFunc: function(activeModal, event) { 
+		  
+		  // if the event occurs outside the activeModal, focus on first element
+		  if(event) { 
+		    $(':input:visible:first',activeModal).focus();
+		  } 
+		  
+		  // lock interactions to the activeModal
+		  return false; 
+		},
+		  
 		// closeOnEscFunc is attached to modals where closeOnEsc param true.
 		closeOnEscFunc: function(event){
 			if (event.keyCode == 27) {
