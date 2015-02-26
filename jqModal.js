@@ -291,7 +291,7 @@
 		// X: The Focus Examination Function (for modal: true dialogs)
 
 		var modal = $(e.target).data('jqm') || $(e.target).parents('.jqm-init:first').data('jqm'),
-			activeModal = A[A.length-1].data('jqm');
+		  activeModal = A[A.length-1];
 		
 		// allow bubbling if event target is within active modal dialog
 		if(modal && modal.ID == activeModal.ID) return true; 
