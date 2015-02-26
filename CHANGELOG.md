@@ -1,6 +1,11 @@
 jqModal Changes By Release
 ==========================
 
+## 1.2.0 (2015.02.26 +r22)
+
+* new: pass event to $.jqm.focusFunc
+* fix: pass active modal DOM object to $.jqm.focusFunc
+
 ## 1.1.0 (2014.07.03 +r21)
 
 * allow modification of a signle option with subsequent $.jqm() calls -- do not extend with default $.jqm.params. 
