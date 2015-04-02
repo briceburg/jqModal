@@ -1,6 +1,11 @@
 jqModal Changes By Release
 ==========================
 
+## 1.2.1 (2015.04.01 +r23)
+
+* fix: allow focus in active modals 
+* improve example, include modal:true demo
+
 ## 1.2.0 (2015.02.26 +r22)
 
 * new: pass event to $.jqm.focusFunc
