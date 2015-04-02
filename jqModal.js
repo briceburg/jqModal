@@ -29,7 +29,7 @@
 				o = $.extend(jqm,options);
 			
 			// add/extend options to modal and mark as initialized
-			e.data('jqm',o).addClass('jqm-init');
+			e.data('jqm',o).addClass('jqm-init')[0]._jqmID = o.ID;
 			
 			// ... Attach events to trigger showing of this modal
 			o.trigger && e.jqmAddTrigger(o.trigger);
@@ -165,7 +165,7 @@
 		hash.w.show();
 		
 		// call focusFunc (attempts to focus on first input in modal)
-		$.jqm.focusFunc(hash.w,null);
+		$.jqm.focusFunc(hash.w,true);
 		
 		return true;
 		
@@ -234,7 +234,7 @@
 			// Bind the Keep Focus Function [F] if no other Modals are open (!ActiveModals[0]) +
 			// 
 			// else, close dialog when overlay is clicked
-			if(o.modal){ !ActiveModals[0]&&F('bind'); ActiveModals.push(e); }
+			if(o.modal){ !ActiveModals[0]&&F('bind'); ActiveModals.push(e[0]); }
 			else e.jqmAddClose(v);
 			
 			//  Attach closing events to elements inside the modal matching closingClass
@@ -289,14 +289,12 @@
 	}, X = function(e){
 		// X: The Focus Examination Function (for modal: true dialogs)
 
-		var modal = $(e.target).data('jqm') || $(e.target).parents('.jqm-init:first').data('jqm'),
-		  activeModal = ActiveModals[ActiveModals.length-1];
+		var targetModal = $(e.target).data('jqm') || $(e.target).parents('.jqm-init:first').data('jqm');
+		var activeModal = ActiveModals[ActiveModals.length-1];
 		
 		// allow bubbling if event target is within active modal dialog
-		if(modal && modal.ID == activeModal.ID) return true;
-
-		// else, trigger focusFunc (focus on first input element and halt bubbling)
-		return $.jqm.focusFunc(activeModal,e);
+		return (targetModal && targetModal.ID == activeModal._jqmID) ? 
+		  true : $.jqm.focusFunc(activeModal,e);
 	}, 
 	
 	I = 0,   // modal ID increment (for nested modals) 
