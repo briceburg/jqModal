@@ -2,116 +2,148 @@
 <head>
 <title>simple jqModal example</title>
 
+<!-- example page styling -->
+<style>
+div.middle {
+	width: 600px;
+	margin: 2em auto;
+}
+</style>
+
 <!-- jqModal Dependencies -->
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script type="text/javascript" src="../jqModal.js"></script>
 
 <!--  jqModal Styling -->
 <link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
+
 </head>
 <body>
 
 
-<!----------------- 
+  <!----------------- 
   TRIGGER ELEMENTS
 ------------------->
 
 
-<div style="width: 600px; margin: 2em auto;">
-1. <em>Defaults</em> -- <a href="#" class="jqModal">click to trigger modal</a>
-<br/>
-Out-of-box behavior. The window and its content is taken "inline" from the element with an ID of 'dialog'. The dialog is "triggered" (shown) when element(s) with class <i>jqModal</i> are clicked. No parameters are passed, no fancy window decorations used.
-</div>
+  <div class="middle">
+    1. <em>Defaults</em> -- <a href="#" class="jqModal">show dialog</a> <br /> Out-of-box behavior. The window and its
+    content is taken "inline" from the element with an ID of 'dialog'. The dialog is "triggered" (shown) when element(s)
+    with class <i>jqModal</i> are clicked. No parameters are passed, no fancy window decorations used.
+  </div>
 
-<div style="width: 600px; margin: 2em auto;">
-2. <em>Ajax</em> -- <a href="#" class="jqm-trigger-ajax">click to trigger modal</a>
-<br/>
-Will open a modal that loads content from a remote server. This page must be served through a webserver to work. <br /> &nbsp;&nbsp; (e.g. http://  and not file://).
-</div>
-
-
-<div style="width: 600px; margin: 2em auto;">
-2. <em>Manual trigger, extend options</em> -- <a href="#" id="trigger-ajax-with-timestamp">click to trigger modal</a>
-<br/>
-Demonstrates a manual trigger of `jqmShow` as well as updating the options object. 
-</div>
+  <div class="middle">
+    2. <em>Ajax</em> -- <a href="#" class="jqm-trigger-ajax">show dialog</a> <br /> Will open a modal that loads
+    content from a remote server. This page must be served through a webserver to work. <br /> &nbsp;&nbsp; (e.g.
+    http:// and not file://).
+  </div>
 
 
-<!------------- 
+  <div class="middle">
+    3. <em>Manual trigger, extend options</em> -- <a href="#" id="trigger-ajax-with-timestamp">show dialog</a> <br />
+    Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
+  </div>
+
+
+  <div class="middle">
+    4. <em>Manual trigger, modal:true dialog</em> -- <a href="#" id="trigger-modal-dialog">show modal:true dialog</a> <br />
+    Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
+  </div>
+
+
+  <!------------- 
   MODAL MARKUP (styled via jqModal.css)
 --------------->
 
-<div class="jqmWindow" id="dialog">
+  <div class="jqmWindow" id="dialog">
     <a href="#" class="jqmClose">Close</a>
     <hr>
-    <em>READ ME</em> -->
-    This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this.
-    
-    <br /> <br />
-    
-    Please see the <a href="http://jquery.iceburg.net/jqModal/">jqModal website</a> for more!
-    
-    <br /><br />
-    <em>NOTE</em>; You can close windows by clicking the tinted background known as the "overlay".
-    Clicking the overlay will have no effect if the "modal" parameter is passed, or if the
-    overlay is disabled.
-</div>
+    <em>READ ME</em> --> This is a "vanilla plain" jqModal window. Behavior and appeareance extend far beyond this. <br />
+    <br /> Please see the <a href="http://jquery.iceburg.net/jqModal/">jqModal website</a> for more! <br /> <br /> <em>NOTE</em>;
+    You can close windows by clicking the tinted background known as the "overlay". Clicking the overlay will have no
+    effect if the "modal" parameter is passed, or if the overlay is disabled.
+  </div>
 
 
-<div class="jqmWindow" id="ajax-dialog">
+  <div class="jqmWindow" id="ajax-dialog">
     <a href="#" class="jqmClose">Close</a>
-    
+
+    <hr />
+
+    <div class="ajax-content"></div>
+  </div>
+  
+  
+  <div class="jqmWindow" id="modal-dialog">
+    <a href="#" class="jqmClose">Close</a>
+
     <hr />
     
-    <div class="ajax-content"></div>
-</div>
+    <p>modal: true demonstration</p>
+    <p>Pressing `Esc` or clicking the overlay will NOT close this form</p>
+
+    <input type="text" placeholder="I get focus..." />
+    <br />
+    <select>
+      <option>Option 1</option>
+      <option>Option 2</option>
+    </select>
+  </div>
 
 
-<!------------
+  <!------------
  MODAL SCRIPT
 -------------->
 
 
-<script type="text/javascript">
-$().ready(function() {
-    
-	/************
-	  Example #1
-	 ************/
-	 
-	$('#dialog').jqm();
-	
-	
-	/************
-      Example #2
-     ************/
-    
-    $('#ajax-dialog').jqm({
-        trigger: 'a.jqm-trigger-ajax',
-        ajax: 'ajax.php',
-        target: 'div.ajax-content',
-        closeOnEsc: true
-    });
-    
-	
-    /************
-      Example #3
-     ************/
-	
-    $('#trigger-ajax-with-timestamp').click(function(){
+  <script type="text/javascript">
+      $().ready(function() {
+
+        /************
+          Example #1
+         ************/
+
+        $('#dialog').jqm();
+
+        /************
+            Example #2
+         ************/
+
+        $('#ajax-dialog').jqm({
+          trigger: 'a.jqm-trigger-ajax',
+          ajax: 'ajax.php',
+          target: 'div.ajax-content',
+          closeOnEsc: true
+        });
+
+        /************
+          Example #3
+         ************/
+
+        $('#trigger-ajax-with-timestamp').click(function() {
+
+          var timestamp = new Date().getTime();
+
+          $('#ajax-dialog').jqm({
+            // update an option
+            ajax: 'ajax.php?timestamp=' + timestamp
+          }).jqmShow(); // show modal
+
+          return false;
+        });
+
         
-        var timestamp = new Date().getTime();
-        
-        $('#ajax-dialog')
-          .jqm({ajax: 'ajax.php?timestamp=' + timestamp}) // update an option
-          .jqmShow(); // show modal
-          
-        return false;
-    });
-    
-    
-});
-</script>
+        /************
+        Example #4
+         ************/
+
+        $('#modal-dialog').jqm({
+          trigger: '#trigger-modal-dialog',
+          modal: true
+        });
+
+      });
+    </script>
 
 </body>
 </html>
