@@ -20,11 +20,7 @@ div.middle {
 </head>
 <body>
 
-
-  <!----------------- 
-  TRIGGER ELEMENTS
-------------------->
-
+  <!-- TRIGGER ELEMENTS -->
 
   <div class="middle">
     1. <em>Defaults</em> -- <a href="#" class="jqModal">show dialog</a> <br /> Out-of-box behavior. The window and its
@@ -38,22 +34,17 @@ div.middle {
     http:// and not file://).
   </div>
 
-
   <div class="middle">
     3. <em>Manual trigger, extend options</em> -- <a href="#" id="trigger-ajax-with-timestamp">show dialog</a> <br />
     Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
   </div>
-
 
   <div class="middle">
     4. <em>Manual trigger, modal:true dialog</em> -- <a href="#" id="trigger-modal-dialog">show modal:true dialog</a> <br />
     Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
   </div>
 
-
-  <!------------- 
-  MODAL MARKUP (styled via jqModal.css)
---------------->
+  <!-- MODAL MARKUP (styled via jqModal.css) -->
 
   <div class="jqmWindow" id="dialog">
     <a href="#" class="jqmClose">Close</a>
@@ -67,18 +58,14 @@ div.middle {
 
   <div class="jqmWindow" id="ajax-dialog">
     <a href="#" class="jqmClose">Close</a>
-
     <hr />
-
     <div class="ajax-content"></div>
   </div>
   
   
   <div class="jqmWindow" id="modal-dialog">
     <a href="#" class="jqmClose">Close</a>
-
     <hr />
-    
     <p>modal: true demonstration</p>
     <p>Pressing `Esc` or clicking the overlay will NOT close this form</p>
 
@@ -90,60 +77,40 @@ div.middle {
     </select>
   </div>
 
-
-  <!------------
- MODAL SCRIPT
--------------->
-
+  <!-- MODAL SCRIPT -->
 
   <script type="text/javascript">
-      $().ready(function() {
+    $().ready(function() {
 
-        /************
-          Example #1
-         ************/
+      /* Example #1 */
+      $('#dialog').jqm();
 
-        $('#dialog').jqm();
-
-        /************
-            Example #2
-         ************/
-
-        $('#ajax-dialog').jqm({
-          trigger: 'a.jqm-trigger-ajax',
-          ajax: 'ajax.php',
-          target: 'div.ajax-content',
-          closeOnEsc: true
-        });
-
-        /************
-          Example #3
-         ************/
-
-        $('#trigger-ajax-with-timestamp').click(function() {
-
-          var timestamp = new Date().getTime();
-
-          $('#ajax-dialog').jqm({
-            // update an option
-            ajax: 'ajax.php?timestamp=' + timestamp
-          }).jqmShow(); // show modal
-
-          return false;
-        });
-
-        
-        /************
-        Example #4
-         ************/
-
-        $('#modal-dialog').jqm({
-          trigger: '#trigger-modal-dialog',
-          modal: true
-        });
-
+      /* Example #2 */
+      $('#ajax-dialog').jqm({
+        trigger: 'a.jqm-trigger-ajax',
+        ajax: 'ajax.php',
+        target: 'div.ajax-content',
+        closeOnEsc: true
       });
-    </script>
+
+      /* Example #3 */
+      $('#trigger-ajax-with-timestamp').click(function() {
+        var timestamp = new Date().getTime();
+        $('#ajax-dialog').jqm({
+          // update an option
+          ajax: 'ajax.php?timestamp=' + timestamp
+        }).jqmShow(); // show modal
+        return false;
+      });
+
+      /* Example #4 */
+      $('#modal-dialog').jqm({
+        trigger: '#trigger-modal-dialog',
+        modal: true
+      });
+
+    });
+  </script>
 
 </body>
 </html>
