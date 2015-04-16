@@ -17,6 +17,11 @@ div.middle {
 <!--  jqModal Styling -->
 <link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
 
+
+<!-- example page Styling  -->
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
+      type="text/css" rel="stylesheet" />
+
 </head>
 <body>
 
@@ -49,6 +54,13 @@ div.middle {
     4. <em>Manual trigger, modal:true dialog</em> -- <a href="#" id="trigger-modal-dialog">show modal:true dialog</a> <br />
     Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
   </div>
+  
+  <div class="middle">
+    5. <em>Ajax Text</em> -- <a href="#" id="trigger-ajax-text">show dialog</a> <br /> Will open a modal whose contents
+    are immediately replaced with predefined text (e.g. a loading indicator). Predefined text is replaced when the server responds
+    with content. This page must be served through a webserver with php support to work. <br /> &nbsp;&nbsp; (e.g.
+    http:// and not file://).
+  </div>
 
 
   <!------------- 
@@ -70,7 +82,7 @@ div.middle {
 
     <hr />
 
-    <div class="ajax-content"></div>
+    <div class="ajax-content"><marquee>loading...</marquee></div>
   </div>
   
   
@@ -88,6 +100,15 @@ div.middle {
       <option>Option 1</option>
       <option>Option 2</option>
     </select>
+  </div>
+  
+  
+  <div class="jqmWindow" id="ajax-text-dialog">
+    <a href="#" class="jqmClose">Close</a>
+
+    <hr />
+
+    <div class="ajax-content">I should be replaced</div>
   </div>
 
 
@@ -141,9 +162,51 @@ div.middle {
           trigger: '#trigger-modal-dialog',
           modal: true
         });
+        
+        
+        /************
+        Example #5
+         ************/
+
+        $('#ajax-text-dialog').jqm({
+          trigger: '#trigger-ajax-text',
+          ajax: 'ajax.php?sleep=true',
+          ajaxText: 'Loading ...<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>',
+          target: 'div.ajax-content',
+          closeOnEsc: true
+        });
+        
+        
 
       });
     </script>
 
+
+<style>
+.glyphicon-spin {
+    -webkit-animation: spin 1000ms infinite linear;
+    animation: spin 1000ms infinite linear;
+}
+@-webkit-keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+@keyframes spin {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+    100% {
+        -webkit-transform: rotate(359deg);
+        transform: rotate(359deg);
+    }
+}
+</style>
 </body>
 </html>

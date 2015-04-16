@@ -11,3 +11,7 @@ We additionally passed the `closeOnEsc` option as true, allowing you to close th
 echo (isset($_GET['timestamp'])) ?
   'timestamp value <strong>' . (int) $_GET['timestamp'] . '</strong>' :
   'no timestampe value received';
+
+if(isset($_GET['sleep'])) {
+    sleep(5);
+}
