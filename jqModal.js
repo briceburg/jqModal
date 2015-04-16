@@ -119,14 +119,16 @@
 			target = (typeof target == 'string') ? $(target,e) : $(target);
 			if(url.substr(0,1) == '@') url = $(t).attr(url.substring(1));
 			
-			 // Load the Ajax Content (and once loaded);
-			   // Fire the onLoad callback (if exists),
-			   // Attach closing events to elements inside the modal that match the closingClass,
-			   // and Execute the jqModal default Open Callback
-			target.html(o.ajaxText).load(url,function(){
+			// load remote contents
+			target.load(url,function(){
 				o.onLoad && o.onLoad.call(this,h);
-				open(h);
-			});	
+			});
+			
+			// show modal
+			if(o.ajaxText) {
+        target.html(o.ajaxText);
+      }
+      open(h);
 		}
 		else { open(h); }
 		
