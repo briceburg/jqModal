@@ -13,5 +13,5 @@ echo (isset($_GET['timestamp'])) ?
   'no timestampe value received';
 
 if(isset($_GET['sleep'])) {
-    sleep(5);
+    sleep(3);
 }
