@@ -1,6 +1,10 @@
 jqModal Changes By Release
 ==========================
 
+## 1.3.0 (2015.04.15 +r24)
+
+* immediately show ajax modals 
+
 ## 1.2.1 (2015.04.01 +r23)
 
 * fix: allow focus in active modals 
