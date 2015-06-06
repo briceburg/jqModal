@@ -47,7 +47,7 @@
 	$.fn.jqmAddTrigger=function(trigger){
 		return this.each(function(){
 			if(!addTrigger($(this), 'jqmShow', trigger))
-				err("jqmAddTrigger must be called on initialized modals")
+				err("jqmAddTrigger must be called on initialized modals");
 		});
 	};
 	
@@ -62,7 +62,7 @@
 	$.fn.jqmAddClose=function(trigger){
 		return this.each(function(){
 			if(!addTrigger($(this), 'jqmHide', trigger))
-				err("jqmAddClose must be called on initialized modals")
+				err("jqmAddClose must be called on initialized modals");
 		});
 	};
 	
@@ -206,7 +206,6 @@
 				
 				// register trigger click event for this modal
 				$(this).click(function(){
-					var trigger = this;
 					
 					e[key](this);
 					
@@ -217,7 +216,7 @@
 			
 		});
 		
-	},  open = function(h){
+	}, function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
 
 		// transform legacy hash into new var shortcuts 
@@ -258,7 +257,7 @@
 		}
 		
 		
-	},  close = function(h){
+	}, function(h){
 		// close: executes the onHide callback + performs common tasks if successful
 
 		// transform legacy hash into new var shortcuts 
