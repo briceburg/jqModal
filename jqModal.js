@@ -116,8 +116,8 @@
 			var target = o.target || e,
 				url = o.ajax;
 			
-			target = (typeof target == 'string') ? $(target,e) : $(target);
-			if(url.substr(0,1) == '@') url = $(t).attr(url.substring(1));
+			target = (typeof target === 'string') ? $(target,e) : $(target);
+			if(url.substr(0,1) === '@') url = $(t).attr(url.substring(1));
 			
 			// load remote contents
 			target.load(url,function(){
@@ -294,7 +294,7 @@
 		var activeModal = ActiveModals[ActiveModals.length-1];
 		
 		// allow bubbling if event target is within active modal dialog
-		return (targetModal && targetModal.ID == activeModal._jqmID) ? 
+		return (targetModal && targetModal.ID === activeModal._jqmID) ? 
 		  true : $.jqm.focusFunc(activeModal,e);
 	}, 
 	
@@ -354,7 +354,7 @@
 		  
 		// closeOnEscFunc is attached to modals where closeOnEsc param true.
 		closeOnEscFunc: function(event){
-			if (event.keyCode == 27) {
+			if (event.keyCode === 27) {
 				$(this).jqmHide();
 				return false;
 			}
