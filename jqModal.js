@@ -209,7 +209,7 @@
 
 		});
 
-	}, function(h){
+	}, open = function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
 
 		// transform legacy hash into new var shortcuts 
