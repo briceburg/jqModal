@@ -248,7 +248,7 @@
 			}
 		}
 
-	}, function(h){
+	}, close = function(h){
 		// close: executes the onHide callback + performs common tasks if successful
 
 		// transform legacy hash into new var shortcuts
