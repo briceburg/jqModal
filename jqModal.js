@@ -198,8 +198,10 @@
 				this[key].push(jqm.ID);
 
 				// register trigger click event for this modal
-				$(this).click(function(){
-
+				$(this).click(function(f){
+					// allow cancelation of event
+					if (f.isDefaultPrevented()) return false;
+					
 					e[key](this);
 
 					// stop trigger click event from bubbling
