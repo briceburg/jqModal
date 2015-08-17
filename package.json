@@ -1,0 +1,9 @@
+{
+  "name": "jqmodal",
+  "devDependencies": {
+    "jshint": "latest"
+  },
+  "scripts": {
+    "test": "jshint jqModal.js"
+  }
+}

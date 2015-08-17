@@ -5,8 +5,8 @@
 <!-- example page styling -->
 <style>
 div.middle {
-	width: 600px;
-	margin: 2em auto;
+  width: 600px;
+  margin: 2em auto;
 }
 </style>
 
@@ -17,7 +17,6 @@ div.middle {
 <!--  jqModal Styling -->
 <link type="text/css" rel="stylesheet" media="all" href="jqModal.css" />
 
-
 <!-- example page Styling  -->
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"
       type="text/css" rel="stylesheet" />
@@ -25,11 +24,7 @@ div.middle {
 </head>
 <body>
 
-
-  <!----------------- 
-  TRIGGER ELEMENTS
-------------------->
-
+  <!-- TRIGGER ELEMENTS -->
 
   <div class="middle">
     1. <em>Defaults</em> -- <a href="#" class="jqModal">show dialog</a> <br /> Out-of-box behavior. The window and its
@@ -43,12 +38,10 @@ div.middle {
     http:// and not file://).
   </div>
 
-
   <div class="middle">
     3. <em>Manual trigger, extend options</em> -- <a href="#" id="trigger-ajax-with-timestamp">show dialog</a> <br />
     Demonstrates a manual trigger of `jqmShow` as well as updating the options object.
   </div>
-
 
   <div class="middle">
     4. <em>Manual trigger, modal:true dialog</em> -- <a href="#" id="trigger-modal-dialog">show modal:true dialog</a> <br />
@@ -62,10 +55,7 @@ div.middle {
     http:// and not file://).
   </div>
 
-
-  <!------------- 
-  MODAL MARKUP (styled via jqModal.css)
---------------->
+  <!-- MODAL MARKUP (styled via jqModal.css) -->
 
   <div class="jqmWindow" id="dialog">
     <a href="#" class="jqmClose">Close</a>
@@ -79,18 +69,14 @@ div.middle {
 
   <div class="jqmWindow" id="ajax-dialog">
     <a href="#" class="jqmClose">Close</a>
-
     <hr />
-
     <div class="ajax-content"><marquee>loading...</marquee></div>
   </div>
   
   
   <div class="jqmWindow" id="modal-dialog">
     <a href="#" class="jqmClose">Close</a>
-
     <hr />
-    
     <p>modal: true demonstration</p>
     <p>Pressing `Esc` or clicking the overlay will NOT close this form</p>
 
@@ -102,111 +88,81 @@ div.middle {
     </select>
   </div>
   
-  
   <div class="jqmWindow" id="ajax-text-dialog">
     <a href="#" class="jqmClose">Close</a>
-
     <hr />
-
-    <div class="ajax-content">I should be replaced</div>
+    <div class="ajax-content">I get replaced...</div>
   </div>
 
-
-  <!------------
- MODAL SCRIPT
--------------->
-
+  <!-- MODAL SCRIPT -->
 
   <script type="text/javascript">
-      $().ready(function() {
+    $().ready(function() {
 
-        /************
-          Example #1
-         ************/
+      /* Example #1 */
+      $('#dialog').jqm();
 
-        $('#dialog').jqm();
-
-        /************
-            Example #2
-         ************/
-
-        $('#ajax-dialog').jqm({
-          trigger: 'a.jqm-trigger-ajax',
-          ajax: 'ajax.php',
-          target: 'div.ajax-content',
-          closeOnEsc: true
-        });
-
-        /************
-          Example #3
-         ************/
-
-        $('#trigger-ajax-with-timestamp').click(function() {
-
-          var timestamp = new Date().getTime();
-
-          $('#ajax-dialog').jqm({
-            // update an option
-            ajax: 'ajax.php?timestamp=' + timestamp
-          }).jqmShow(); // show modal
-
-          return false;
-        });
-
-        
-        /************
-        Example #4
-         ************/
-
-        $('#modal-dialog').jqm({
-          trigger: '#trigger-modal-dialog',
-          modal: true
-        });
-        
-        
-        /************
-        Example #5
-         ************/
-
-        $('#ajax-text-dialog').jqm({
-          trigger: '#trigger-ajax-text',
-          ajax: 'ajax.php?sleep=true',
-          ajaxText: 'Loading ...<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>',
-          target: 'div.ajax-content',
-          closeOnEsc: true
-        });
-        
-        
-
+      /* Example #2 */
+      $('#ajax-dialog').jqm({
+        trigger: 'a.jqm-trigger-ajax',
+        ajax: 'ajax.php',
+        target: 'div.ajax-content',
+        closeOnEsc: true
       });
-    </script>
 
+      /* Example #3 */
+      $('#trigger-ajax-with-timestamp').click(function() {
+        var timestamp = new Date().getTime();
+        $('#ajax-dialog').jqm({
+          // update an option
+          ajax: 'ajax.php?timestamp=' + timestamp
+        }).jqmShow(); // show modal
+        return false;
+      });
 
-<style>
-.glyphicon-spin {
-    -webkit-animation: spin 1000ms infinite linear;
-    animation: spin 1000ms infinite linear;
-}
-@-webkit-keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
-}
-@keyframes spin {
-    0% {
-        -webkit-transform: rotate(0deg);
-        transform: rotate(0deg);
-    }
-    100% {
-        -webkit-transform: rotate(359deg);
-        transform: rotate(359deg);
-    }
-}
-</style>
+      /* Example #4 */
+      $('#modal-dialog').jqm({
+        trigger: '#trigger-modal-dialog',
+        modal: true
+      });
+      
+      /* Example #5 */
+      $('#ajax-text-dialog').jqm({
+        trigger: '#trigger-ajax-text',
+        ajax: 'ajax.php?sleep=true',
+        ajaxText: 'Loading ...<span class="glyphicon glyphicon-refresh glyphicon-spin"></span>',
+        target: 'div.ajax-content',
+        closeOnEsc: true
+      });
+    });
+  </script>
+  
+  <style>
+  .glyphicon-spin {
+      -webkit-animation: spin 1000ms infinite linear;
+      animation: spin 1000ms infinite linear;
+  }
+  @-webkit-keyframes spin {
+      0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(359deg);
+          transform: rotate(359deg);
+      }
+  }
+  @keyframes spin {
+      0% {
+          -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+      }
+      100% {
+          -webkit-transform: rotate(359deg);
+          transform: rotate(359deg);
+      }
+  }
+  </style>
+
 </body>
 </html>
