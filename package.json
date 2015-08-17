@@ -4,6 +4,6 @@
     "jshint": "latest"
   },
   "scripts": {
-    "test": "jshint *.js"
+    "test": "jshint jqModal.js"
   }
 }
