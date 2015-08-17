@@ -4,7 +4,6 @@
     "jshint": "latest"
   },
   "scripts": {
-    "lint": "jshint *.js",
     "test": "jshint *.js"
   }
 }

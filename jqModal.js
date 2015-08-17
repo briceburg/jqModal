@@ -45,8 +45,8 @@
 	$.fn.jqmAddTrigger=function(trigger){
 	  if(trigger){
 	    return this.each(function(){
-			  addTrigger($(this), 'jqmShow', trigger) || err(
-			    "jqmAddTrigger must be called on initialized modals");
+			  if (!addTrigger($(this), 'jqmShow', trigger))
+			    err("jqmAddTrigger must be called on initialized modals");
 		  });
 	  }
 	};
@@ -61,8 +61,8 @@
 	$.fn.jqmAddClose=function(trigger){
 	  if(trigger){
   	  return this.each(function(){
-  			addTrigger($(this), 'jqmHide', trigger) || err (
-  				"jqmAddClose must be called on initialized modals");
+  			if(!addTrigger($(this), 'jqmHide', trigger))
+  			  err ("jqmAddClose must be called on initialized modals");
   		});
 	  }
 	};
@@ -71,14 +71,14 @@
 	 * Open matching modals (if not shown)
 	 */
 	$.fn.jqmShow=function(trigger){
-		return this.each(function(){ !this._jqmShown&&show($(this), trigger); });
+		return this.each(function(){ if(!this._jqmShown) show($(this), trigger); });
 	};
 
 	/**
 	 * Close matching modals
 	 */
 	$.fn.jqmHide=function(trigger){
-		return this.each(function(){ this._jqmShown&&hide($(this), trigger); });
+		return this.each(function(){ if(this._jqmShown) hide($(this), trigger); });
 	};
 
 	// utility functions
@@ -98,11 +98,11 @@
 		 * v = overlay element (as jQuery object)
 		 * h = hash (for jqModal <= r15 compatibility)
 		 */
+	  
+	  t = t || window.event;
 
 		var o = m.data('jqm'),
-			t = t || window.event,
-			z = (parseInt(m.css('z-index'))),
-			z = (z > 0) ? z : 3000,
+			z = (parseInt(m.css('z-index'))) || 3000,
 			v = $('<div></div>').addClass(o.overlayClass).css({
 			  height:'100%',
 			  width:'100%',
@@ -127,11 +127,11 @@
 
 			// load remote contents
 			target.load(url,function(){
-				o.onLoad && o.onLoad.call(this,h);
+				if(o.onLoad) o.onLoad.call(this,h);
 			});
 
 			// show modal
-			o.ajaxText && target.html(o.ajaxText);
+			if(o.ajaxText) target.html(o.ajaxText);
       open(h);
 		}
 		else { open(h); }
@@ -145,11 +145,10 @@
 		 * h = hash (for jqModal <= r15 compatibility)
 		 */
 
+	  t = t || window.event;
 		var o = m.data('jqm'),
-			t = t || window.event,
-
-		// maintain legacy "hash" construct
-		h = {w: m, c: o, o: m.data('jqmv'), t: t};
+		    // maintain legacy "hash" construct
+		    h = {w: m, c: o, o: m.data('jqmv'), t: t};
 
 		close(h);
 
@@ -164,7 +163,7 @@
 		//  t: (DOM object) The triggering element
 
 		// if overlay not disabled, prepend to body
-		(hash.c.overlay > 0) && hash.o.prependTo('body');
+		if(hash.c.overlay > 0) hash.o.prependTo('body');
 
 		// make modal visible
 		hash.w.show();
@@ -185,7 +184,7 @@
 		//  t: (DOM object) The triggering element
 
 		// hide modal and if overlay, remove overlay.
-		hash.w.hide() && hash.o && hash.o.remove();
+		if(hash.w.hide() && hash.o) hash.o.remove();
 
 		return true;
 
@@ -204,7 +203,7 @@
 				// register trigger click event for this modal
 				//  allows cancellation of show/hide event from
 				$(this).click(function(e){
-					!e.isDefaultPrevented() && m[key](this);
+					if(!e.isDefaultPrevented()) m[key](this);
 					return false;
 				});
 			}
@@ -228,16 +227,19 @@
 			//   Bind the Keep Focus Function [F] if no other Modals are active
 			// else, 
 			//   trigger closing of dialog when overlay is clicked
-			if(o.modal){ !ActiveModals[0]&&F('bind'); ActiveModals.push(m[0]); }
+			if(o.modal){ 
+			  if(!ActiveModals[0]){ F('bind'); } 
+			  ActiveModals.push(m[0]); 
+			}
 			else m.jqmAddClose(v);
 
 			//  Attach events to elements inside the modal matching closingClass
-			o.closeClass && m.jqmAddClose($('.' + o.closeClass,m));
+			if(o.closeClass) m.jqmAddClose($('.' + o.closeClass,m));
 
 			// if toTop is true and overlay exists;
 			//  remember modal DOM position with <span> placeholder element, and move
 			//  the modal to a direct child of the body tag (after overlyay)
-			(o.toTop && v ) && 
+			if(o.toTop && v)
 			  m.before('<span id="jqmP'+o.ID+'"></span>').insertAfter(v);
 
 			// remember overlay (for closing function)
@@ -265,11 +267,14 @@
 
 			 // If modal, remove from modal stack.
 			 // If no modals in modal stack, unbind the Keep Focus Function
-			 if(o.modal){ ActiveModals.pop(); !ActiveModals[0] && F('unbind'); }
+			 if(o.modal){ 
+			   ActiveModals.pop(); 
+			   if(!ActiveModals[0]) F('unbind'); 
+			 }
 
 			 // IF toTop was passed and an overlay exists;
 			 //  Move modal back to its "remembered" position.
-			 (o.toTop && v) && $('#jqmP'+o.ID).after(m).remove();
+			 if(o.toTop && v) $('#jqmP'+o.ID).after(m).remove();
 		}
 
 	},  F = function(t){
@@ -335,7 +340,7 @@
 		focusFunc: function(activeModal, e) {
 
 		  // if the event occurs outside the activeModal, focus on first element
-		  e && $(':input:visible:first',activeModal).focus();
+		  if(e) $(':input:visible:first',activeModal).focus();
 
 		  // lock interactions to the activeModal
 		  return false; 
