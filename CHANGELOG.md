@@ -1,6 +1,13 @@
 jqModal Changes By Release
 ==========================
 
+## 1.4.0 (2015.08.16 +r25)
+
+* new convention: use 'e' for event, 'm' for modal element, 80 cols max.
+* preventDefault to cancel click behavior in trigger functions, thanks @ayyash
+* strict javascript linting, thanks @paladox 
+  * add travis-ci integration
+
 ## 1.3.0 (2015.04.15 +r24)
 
 * immediately show ajax modals 

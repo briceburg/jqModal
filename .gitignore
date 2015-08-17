@@ -3,6 +3,7 @@
 #### LANG
 /.lein-repl-history
 /repl
+/node_modules
 
 #### IDE
 /.project
