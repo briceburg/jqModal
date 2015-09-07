@@ -5,12 +5,20 @@
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
- * 
+ *
  * $Version: 1.4.0 (2015.08.16 +r25)
  * Requires: jQuery 1.2.3+
  */
 
-(function($) {
+(function (factory) {
+  if (typeof module === 'object' && typeof module.exports === 'object') {
+    // Node/CommonJS
+    module.exports = factory(require('jquery'));
+  } else {
+    // Browser globals
+    factory(jQuery);
+  }
+}(function ($) {
 
 	/**
 	 * Initialize elements as "modals". Modals typically are popup dialogs,
@@ -54,7 +62,7 @@
 	/**
 	 * Matching modals will have their jqmHide() method fired by attaching an
 	 *   onClick event to elements matching `trigger`.
-	 * 
+	 *
 	 * @name jqmAddClose
 	 * @param trigger a string selector, jQuery collection, or DOM element.
 	 */
@@ -98,7 +106,7 @@
 		 * v = overlay element (as jQuery object)
 		 * h = hash (for jqModal <= r15 compatibility)
 		 */
-	  
+
 	  t = t || window.event;
 
 		var o = m.data('jqm'),
@@ -114,7 +122,7 @@
 			}),
 
 			// maintain legacy "hash" construct
-			h = {w: m, c: o, o: v, t: t};	
+			h = {w: m, c: o, o: v, t: t};
 
 		m.css('z-index',z);
 
@@ -135,7 +143,7 @@
       open(h);
 		}
 		else { open(h); }
-		
+
 	}, hide = function(m, t){
 		/**
 		 * m = modal element (as jQuery object)
@@ -154,11 +162,11 @@
 
 	}, onShow = function(hash){
 		// onShow callback. Responsible for showing a modal and overlay.
-		//  return false to stop opening modal. 
+		//  return false to stop opening modal.
 
 		// hash object;
 		//  w: (jQuery object) The modal element
-		//  c: (object) The modal's options object 
+		//  c: (object) The modal's options object
 		//  o: (jQuery object) The overlay element
 		//  t: (DOM object) The triggering element
 
@@ -175,11 +183,11 @@
 
 	}, onHide = function(hash){
 		// onHide callback. Responsible for hiding a modal and overlay.
-		//  return false to stop closing modal. 
+		//  return false to stop closing modal.
 
 		// hash object;
 		//  w: (jQuery object) The modal element
-		//  c: (object) The modal's options object 
+		//  c: (object) The modal's options object
 		//  o: (jQuery object) The overlay element
 		//  t: (DOM object) The triggering element
 
@@ -213,7 +221,7 @@
 	}, open = function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
 
-		// transform legacy hash into new var shortcuts 
+		// transform legacy hash into new var shortcuts
 		var m = h.w,
 			v = h.o,
 			o = h.c;
@@ -225,11 +233,11 @@
 
 			// if modal:true  dialog
 			//   Bind the Keep Focus Function [F] if no other Modals are active
-			// else, 
+			// else,
 			//   trigger closing of dialog when overlay is clicked
-			if(o.modal){ 
-			  if(!ActiveModals[0]){ F('bind'); } 
-			  ActiveModals.push(m[0]); 
+			if(o.modal){
+			  if(!ActiveModals[0]){ F('bind'); }
+			  ActiveModals.push(m[0]);
 			}
 			else m.jqmAddClose(v);
 
@@ -267,9 +275,9 @@
 
 			 // If modal, remove from modal stack.
 			 // If no modals in modal stack, unbind the Keep Focus Function
-			 if(o.modal){ 
-			   ActiveModals.pop(); 
-			   if(!ActiveModals[0]) F('unbind'); 
+			 if(o.modal){
+			   ActiveModals.pop();
+			   if(!ActiveModals[0]) F('unbind');
 			 }
 
 			 // IF toTop was passed and an overlay exists;
@@ -279,14 +287,14 @@
 
 	},  F = function(t){
 		// F: The Keep Focus Function (for modal: true dialos)
-		// Binds or Unbinds (t) the Focus Examination Function (X) 
+		// Binds or Unbinds (t) the Focus Examination Function (X)
 
 		$(document)[t]("keypress keydown mousedown",X);
 
 	}, X = function(e){
 		// X: The Focus Examination Function (for modal: true dialogs)
 
-		var targetModal = $(e.target).data('jqm') || 
+		var targetModal = $(e.target).data('jqm') ||
 		                  $(e.target).parents('.jqm-init:first').data('jqm');
 		var activeModal = ActiveModals[ActiveModals.length-1];
 
@@ -302,13 +310,13 @@
 	$.jqm = {
 		/**
 		 *  default options
-		 *    
-		 * (Integer)   overlay      - [0-100] Translucency percentage (opacity) of the body covering overlay. Set to 0 for NO overlay, and up to 100 for a 100% opaque overlay.  
+		 *
+		 * (Integer)   overlay      - [0-100] Translucency percentage (opacity) of the body covering overlay. Set to 0 for NO overlay, and up to 100 for a 100% opaque overlay.
 		 * (String)    overlayClass - Applied to the body covering overlay. Useful for controlling overlay look (tint, background-image, &c) with CSS.
 		 * (String)    closeClass   - Children of the modal element matching `closeClass` will fire the onHide event (to close the modal).
 		 * (Mixed)     trigger      - Matching elements will fire the onShow event (to display the modal). Trigger can be a selector String, a jQuery collection of elements, a DOM element, or a False boolean.
-		 * (String)    ajax         - URL to load content from via an AJAX request. False to disable ajax. If ajax begins with a "@", the URL is extracted from the attribute of the triggering element (e.g. use '@data-url' for; <a href="#" class="jqModal" data-url="modal.html">...)	                
-		 * (Mixed)     target       - Children of the modal element to load the ajax response into. If false, modal content will be overwritten by ajax response. Useful for retaining modal design. 
+		 * (String)    ajax         - URL to load content from via an AJAX request. False to disable ajax. If ajax begins with a "@", the URL is extracted from the attribute of the triggering element (e.g. use '@data-url' for; <a href="#" class="jqModal" data-url="modal.html">...)
+		 * (Mixed)     target       - Children of the modal element to load the ajax response into. If false, modal content will be overwritten by ajax response. Useful for retaining modal design.
 		 *                            Target may be a selector string, jQuery collection of elements, or a DOM element -- and MUST exist as a child of the modal element.
 		 * (String)    ajaxText     - Text shown while waiting for ajax return. Replaces HTML content of `target` element.
 		 * (Boolean)   modal        - If true, user interactivity will be locked to the modal window until closed.
@@ -343,7 +351,7 @@
 		  if(e) $(':input:visible:first',activeModal).focus();
 
 		  // lock interactions to the activeModal
-		  return false; 
+		  return false;
 		},
 
 		// closeOnEscFunc is attached to modals where closeOnEsc param true.
@@ -355,4 +363,6 @@
 		}
 	};
 
-})( jQuery );
+    return $.jqm;
+
+}));
