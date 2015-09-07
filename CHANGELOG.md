@@ -1,6 +1,11 @@
 jqModal Changes By Release
 ==========================
 
+## 1.4.1 (2015.09.07 +r26)
+
+* remove legacy jquery.plugin.json
+* release on npm
+  
 ## 1.4.0 (2015.08.16 +r25)
 
 * new convention: use 'e' for event, 'm' for modal element, 80 cols max.
