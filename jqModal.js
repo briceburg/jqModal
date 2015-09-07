@@ -6,7 +6,7 @@
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * $Version: 1.4.0 (2015.08.16 +r25)
+ * $Version: 1.4.1 (2015.09.07 +r26)
  * Requires: jQuery 1.2.3+
  */
 

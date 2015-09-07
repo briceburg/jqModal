@@ -96,7 +96,7 @@ The [CHANGELOG.md](https://github.com/briceburg/jqModal/blob/master/CHANGELOG.md
 
 * Version jqModal.js `<semver> (YYYY.MM.DD +r<revision>)`
 * Minify jqModal.js -> jqModal.min.js
-* Update jqModal.jquery.json, bumping <semver> version
+* Update package.json, bumping <semver> version
 * Ensure changelog is up to date
 * Merge -master with -release
 * Tag -release with <semver> : `git tag <semver> && git push origin --tags` to publish.
