@@ -100,7 +100,7 @@ The [CHANGELOG.md](https://github.com/briceburg/jqModal/blob/master/CHANGELOG.md
 * Ensure changelog is up to date
 * Merge -master with -release
 * Tag -release with <semver> : `git tag <semver> && git push origin --tags` to publish.
-
+* `npm publish ./` (from -release checkout)
 
 Get Involved
 ============
