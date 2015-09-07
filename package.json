@@ -1,9 +1,19 @@
 {
   "name": "jqmodal",
-  "devDependencies": {
-    "jshint": "latest"
-  },
+  "version": "1.4.0",
+  "main": "jqModal.js",
   "scripts": {
     "test": "jshint jqModal.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/briceburg/jqModal.git"
+  },
+  "license": "(MIT OR GPL-2.0)",
+  "dependencies": {
+    "jquery": ">=1.2.3"
+  },
+  "devDependencies": {
+    "jshint": "latest"
   }
 }
