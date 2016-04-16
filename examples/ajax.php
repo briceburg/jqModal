@@ -3,7 +3,12 @@ this message was loaded from server.
 
 <br /><br />
 
-We additionally passed the `closeOnEsc` option as true, allowing you to close this modal by pressing the `Esc` key.
+<strong>Note</strong> the `closeOnEsc` parameter was passed as true,
+allowing you to close this modal by pressing the <em>`Esc`</em> key.
+<br /><br />
+
+Loaded content also respects the <em>closeClass</em>, and will automatically
+add classing behahvior to elements like this one: <button class="jqmClose">close me</button>
 <br /><br />
 
 <?php
