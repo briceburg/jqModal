@@ -53,8 +53,9 @@
 	$.fn.jqmAddTrigger=function(trigger){
 	  if(trigger){
 	    return this.each(function(){
-			  if (!addTrigger($(this), 'jqmShow', trigger))
+			  if (!addTrigger($(this), 'jqmShow', trigger)) {
 			    err("jqmAddTrigger must be called on initialized modals");
+        }
 		  });
 	  }
 	};
@@ -69,8 +70,9 @@
 	$.fn.jqmAddClose=function(trigger){
 	  if(trigger){
   	  return this.each(function(){
-  			if(!addTrigger($(this), 'jqmHide', trigger))
+  			if(!addTrigger($(this), 'jqmHide', trigger)) {
   			  err ("jqmAddClose must be called on initialized modals");
+        }
   		});
 	  }
 	};
@@ -79,21 +81,25 @@
 	 * Open matching modals (if not shown)
 	 */
 	$.fn.jqmShow=function(trigger){
-		return this.each(function(){ if(!this._jqmShown) show($(this), trigger); });
+		return this.each(function(){
+      if(!this._jqmShown) { show($(this), trigger); }
+    });
 	};
 
 	/**
 	 * Close matching modals
 	 */
 	$.fn.jqmHide=function(trigger){
-		return this.each(function(){ if(this._jqmShown) hide($(this), trigger); });
+		return this.each(function(){
+      if(this._jqmShown) { hide($(this), trigger); }
+    });
 	};
 
 	// utility functions
 
 	var
 		err = function(msg){
-			if(window.console && window.console.error) window.console.error(msg);
+			if(window.console && window.console.error) { window.console.error(msg); }
 
 	}, show = function(m, t){
 
@@ -110,7 +116,7 @@
 	  t = t || window.event;
 
 		var o = m.data('jqm'),
-			z = (parseInt(m.css('z-index'))) || 3000,
+			z = (parseInt(m.css('z-index'),10)) || 3000,
 			v = $('<div></div>').addClass(o.overlayClass).css({
 			  height:'100%',
 			  width:'100%',
@@ -131,16 +137,22 @@
 				url = o.ajax;
 
 			target = (typeof target === 'string') ? $(target,m) : $(target);
-			if(url.substr(0,1) === '@') url = $(t).attr(url.substring(1));
+			if(url.substr(0,1) === '@') {
+        url = $(t).attr(url.substring(1));
+      }
 
 			// load remote contents
 			target.load(url,function(){
-				if(o.onLoad) o.onLoad.call(this,h);
+				if(o.onLoad) {
+           o.onLoad.call(this,h);
+         }
         parseModalContents.call(m,o,target);
 			});
 
 			// show modal
-			if(o.ajaxText) target.html(o.ajaxText);
+			if(o.ajaxText) {
+        target.html(o.ajaxText);
+      }
       open(h);
 		}
 		else { open(h); }
@@ -172,7 +184,9 @@
 		//  t: (DOM object) The triggering element
 
 		// if overlay not disabled, prepend to body
-		if(hash.c.overlay > 0) hash.o.prependTo('body');
+		if(hash.c.overlay > 0) {
+      hash.o.prependTo('body');
+    }
 
 		// make modal visible
 		hash.w.show();
@@ -193,7 +207,9 @@
 		//  t: (DOM object) The triggering element
 
 		// hide modal and if overlay, remove overlay.
-		if(hash.w.hide() && hash.o) hash.o.remove();
+		if(hash.w.hide() && hash.o) {
+      hash.o.remove();
+    }
 
 		return true;
 
@@ -202,22 +218,22 @@
 		//  to all elements that match trigger string (trigger)
 
 		var jqm = m.data('jqm');
-		if(jqm) return $(trigger).each(function(){
-			this[key] = this[key] || [];
+		if(jqm) {
+      return $(trigger).each(function(){
+  			this[key] = this[key] || [];
+  			// register this modal with this trigger only once
+  			if($.inArray(jqm.ID,this[key]) < 0) {
+  				this[key].push(jqm.ID);
 
-			// register this modal with this trigger only once
-			if($.inArray(jqm.ID,this[key]) < 0) {
-				this[key].push(jqm.ID);
-
-				// register trigger click event for this modal
-				//  allows cancellation of show/hide event from
-				$(this).click(function(e){
-					if(!e.isDefaultPrevented()) m[key](this);
-					return false;
-				});
-			}
-
-		});
+  				// register trigger click event for this modal
+  				//  allows cancellation of show/hide event from
+  				$(this).click(function(e){
+  					if(!e.isDefaultPrevented()) { m[key](this); }
+  					return false;
+  				});
+  			}
+  		});
+    }
 
 	}, open = function(h){
 		// open: executes the onOpen callback + performs common tasks if successful
@@ -240,7 +256,9 @@
 			  if(!ActiveModals[0]){ F('bind'); }
 			  ActiveModals.push(m[0]);
 			}
-			else m.jqmAddClose(v);
+			else {
+        m.jqmAddClose(v);
+      }
 
       // parse modal contents and add behavior
       parseModalContents.call(m,o);
@@ -248,8 +266,9 @@
 			// if toTop is true and overlay exists;
 			//  remember modal DOM position with <span> placeholder element, and move
 			//  the modal to a direct child of the body tag (after overlyay)
-			if(o.toTop && v)
+			if(o.toTop && v) {
 			  m.before('<span id="jqmP'+o.ID+'"></span>').insertAfter(v);
+      }
 
 			// remember overlay (for closing function)
 			m.data('jqmv',v);
@@ -278,12 +297,16 @@
 			 // If no modals in modal stack, unbind the Keep Focus Function
 			 if(o.modal){
 			   ActiveModals.pop();
-			   if(!ActiveModals[0]) F('unbind');
+			   if(!ActiveModals[0]) {
+           F('unbind');
+         }
 			 }
 
 			 // IF toTop was passed and an overlay exists;
 			 //  Move modal back to its "remembered" position.
-			 if(o.toTop && v) $('#jqmP'+o.ID).after(m).remove();
+			 if(o.toTop && v) {
+         $('#jqmP'+o.ID).after(m).remove();
+       }
 		}
 
 	},  F = function(t){
@@ -307,7 +330,9 @@
     context = context || this;
 
     //  Attach events to elements inside the modal matching closingClass
-    if(o.closeClass) this.jqmAddClose($('.' + o.closeClass,context));
+    if(o.closeClass) {
+      this.jqmAddClose($('.' + o.closeClass,context));
+    }
 
   },
 	I = 0,   // modal ID increment (for nested modals)
@@ -355,7 +380,7 @@
 		focusFunc: function(activeModal, e) {
 
 		  // if the event occurs outside the activeModal, focus on first element
-		  if(e) $(':input:visible:first',activeModal).focus();
+		  if(e) { $(':input:visible:first',activeModal).focus(); }
 
 		  // lock interactions to the activeModal
 		  return false;
