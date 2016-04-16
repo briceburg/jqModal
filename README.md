@@ -20,17 +20,17 @@ Usage
 
 markup
 ```html
-<a 
-  class="button" 
+<a
+  class="button"
   data-modal="{{ video_id }}" href="$//www.youtube.com/embed/{{ video_id }}">
   Watch</a>
 
 <div class="modal-dialog modal-video" data-modal="{{ video_id }}">
-  <iframe 
-    width="560" 
-    height="315" 
-    src="//www.youtube.com/embed/{{ video_id }}" 
-    frameborder="0" 
+  <iframe
+    width="560"
+    height="315"
+    src="//www.youtube.com/embed/{{ video_id }}"
+    frameborder="0"
     allowfullscreen></iframe>
 </div>
 
@@ -40,10 +40,10 @@ script
 
 ```js
 $('div.modal-dialog').each(function(){
-    
+
   var modal_id = this.id || $(this).data('modal');
   var trigger = $('a.modal-trigger[data-modal="' + modal_id + '"]');
-  
+
   $(this).jqm({
     toTop: true,
     trigger: trigger
@@ -88,19 +88,18 @@ See [Examples / Demonstration](http://jquery.iceburg.net/jqModal/#examples)
 Development
 =============
 
-Development of jqModal occurs in the -master branch on [jqModal.js](https://github.com/briceburg/jqModal/blob/master/jqModal.js). 
+Development of jqModal occurs in the -master branch on [jqModal.js](https://github.com/briceburg/jqModal/blob/master/jqModal.js).
 The [CHANGELOG.md](https://github.com/briceburg/jqModal/blob/master/CHANGELOG.md) is to be kept up to date with changes.
 
 
 ## Release Process
 
-* Version jqModal.js `<semver> (YYYY.MM.DD +r<revision>)`
-* Minify jqModal.js -> jqModal.min.js
-* Update package.json, bumping <semver> version
+* Version jqModal.js header `<semver> (YYYY.MM.DD +r<revision>)`
+  * Update package.json, bumping <semver> version
 * Ensure changelog is up to date
-* Merge -master with -release
-* Tag -release with <semver> : `git tag <semver> && git push origin --tags` to publish.
-* `npm publish ./` (from -release checkout)
+* Tag with <semver> : `git tag <semver> && git push origin --tags` to publish.
+  * add release notes via github interface
+* `npm publish ./`
 
 Get Involved
 ============

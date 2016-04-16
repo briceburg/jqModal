@@ -1,12 +1,12 @@
 /*
  * jqModal - Minimalist Modaling with jQuery
  *
- * Copyright (c) 2007-2015 Brice Burgess @IceburgBrice
+ * Copyright (c) 2007-2016 Brice Burgess @IceburgBrice
  * Dual licensed under the MIT and GPL licenses:
  *   http://www.opensource.org/licenses/mit-license.php
  *   http://www.gnu.org/licenses/gpl.html
  *
- * $Version: 1.4.1 (2015.09.07 +r26)
+ * $Version: 1.4.2 (2016.04.16 +r27)
  * Requires: jQuery 1.2.3+
  */
 
