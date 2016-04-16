@@ -1,25 +1,32 @@
 jqModal Changes By Release
 ==========================
 
+## 1.4.2 (2016.04.16 +r27)
+
+* restore parsing and assigning closeClass behavior in ajax loaded content
+  * update examples/ajax.php to include a closeClass element
+* linting love
+
+
 ## 1.4.1 (2015.09.07 +r26)
 
 * remove legacy jquery.plugin.json
 * release on npm
-  
+
 ## 1.4.0 (2015.08.16 +r25)
 
 * new convention: use 'e' for event, 'm' for modal element, 80 cols max.
 * preventDefault to cancel click behavior in trigger functions, thanks @ayyash
-* strict javascript linting, thanks @paladox 
+* strict javascript linting, thanks @paladox
   * add travis-ci integration
 
 ## 1.3.0 (2015.04.15 +r24)
 
-* immediately show ajax modals 
+* immediately show ajax modals
 
 ## 1.2.1 (2015.04.01 +r23)
 
-* fix: allow focus in active modals 
+* fix: allow focus in active modals
 * improve example, include modal:true demo
 
 ## 1.2.0 (2015.02.26 +r22)
@@ -29,7 +36,7 @@ jqModal Changes By Release
 
 ## 1.1.0 (2014.07.03 +r21)
 
-* allow modification of a signle option with subsequent $.jqm() calls -- do not extend with default $.jqm.params. 
+* allow modification of a signle option with subsequent $.jqm() calls -- do not extend with default $.jqm.params.
 * simplify addTrigger method and ensure subsequent calls don't append additional click events to triggers.
 
 ## 1.0.3 (2014.07.02 +r20)
@@ -39,11 +46,11 @@ jqModal Changes By Release
 
 ## 1.0.2 (2014.04.10 +r19)
 
-* fixed registration / jQuery NoConflict - thanks @mitja-p 
+* fixed registration / jQuery NoConflict - thanks @mitja-p
 
 ## 1.0.1 (2014.03.27 +r18)
 
-* strict mode fix - thanks @Piokaz 
+* strict mode fix - thanks @Piokaz
 
 ## 1.0.0 (2014.01.30 +r17)
 
