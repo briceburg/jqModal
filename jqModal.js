@@ -136,6 +136,7 @@
 			// load remote contents
 			target.load(url,function(){
 				if(o.onLoad) o.onLoad.call(this,h);
+        parseModalContents.call(m,o,target);
 			});
 
 			// show modal
@@ -241,8 +242,8 @@
 			}
 			else m.jqmAddClose(v);
 
-			//  Attach events to elements inside the modal matching closingClass
-			if(o.closeClass) m.jqmAddClose($('.' + o.closeClass,m));
+      // parse modal contents and add behavior
+      parseModalContents.call(m,o);
 
 			// if toTop is true and overlay exists;
 			//  remember modal DOM position with <span> placeholder element, and move
@@ -301,8 +302,14 @@
 		// allow bubbling if event target is within active modal dialog
 		return (targetModal && targetModal.ID === activeModal._jqmID) ?
 		         true : $.jqm.focusFunc(activeModal,e);
-	},
 
+	}, parseModalContents = function(o, context){
+    context = context || this;
+
+    //  Attach events to elements inside the modal matching closingClass
+    if(o.closeClass) this.jqmAddClose($('.' + o.closeClass,context));
+
+  },
 	I = 0,   // modal ID increment (for nested modals)
 	ActiveModals = [];  // array of active modals
 
